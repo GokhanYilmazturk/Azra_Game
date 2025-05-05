@@ -24,7 +24,7 @@ Bu web uygulaması, 6-8 yaşındaki çocuklar için eğlenceli ve öğretici bir
 
 ## Kurulum ve Kullanım
 
-1. `index.html` dosyasını bir web tarayıcısında açın.
+1. `Azra_Math_Game.html` dosyasını bir web tarayıcısında açın.
 2. Ana sayfada "Oyuna Başla" butonuna tıklayarak oyuna başlayabilirsiniz.
 3. Sorulara doğru cevap vererek puan kazanmaya ve seviyeleri geçmeye çalışın.
 
