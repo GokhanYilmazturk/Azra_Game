@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Matematik Oyunu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    #game-section {
+      display: none;
+    }
+    input {
+      padding: 5px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    #confetti {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      display: none;
+      z-index: 100;
+    }
+    .confetti-piece {
+      width: 10px;
+      height: 10px;
+      background-color: gold;
+      position: absolute;
+      animation: fall 2s linear forwards;
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="main-section">
+    <h1>Hoş geldin tatlı kızım!</h1>
+    <p>Mevcut seviyen: <span id="level">Grup-1</span></p>
+    <p>Puanın: <span id="points">0</span></p>
+    <button onclick="startGame()">Oyuna Başla</button>
+  </div>
+
+  <div id="game-section">
+    <p><strong>Puanın:</strong> <span id="game-points">0</span></p>
+    <p><strong>Seviyen:</strong> <span id="game-level">Grup-1</span></p>
+    <p id="question-text">Soru burada gözükecek</p>
+    <input type="number" id="answer-input" placeholder="Cevabını yaz">
+    <br>
+    <button onclick="submitAnswer()">Cevabı Gönder</button>
+    <p id="feedback"></p>
+  </div>
+
+  <div id="confetti"></div>
+
+  <script>
+    let points = 0;
+    let levelIndex = 0;
+    const levels = ["Grup-1", "Grup-2", "Grup-3", "Grup-4", "Grup-5"];
+    let currentAnswer = 0;
+
+    function getCurrentLevel() {
+      return levels[Math.min(levelIndex, levels.length - 1)];
+    }
+
+    function startGame() {
+      document.getElementById("main-section").style.display = "none";
+      document.getElementById("game-section").style.display = "block";
+      nextQuestion();
+    }
+
+    function nextQuestion() {
+      const level = getCurrentLevel();
+      let a, b, op;
+
+      switch (level) {
+        case "Grup-1":
+          a = Math.floor(Math.random() * 10);
+          b = Math.floor(Math.random() * 10);
+          op = "+";
+          break;
+        case "Grup-2":
+          op = Math.random() < 0.5 ? "+" : "*";
+          a = Math.floor(Math.random() * 10);
+          b = op === "+" ? Math.floor(Math.random() * 10) : Math.floor(Math.random() * 3);
+          break;
+        case "Grup-3":
+          op = Math.random() < 0.5 ? "+" : "*";
+          a = Math.floor(Math.random() * 10);
+          b = op === "+" ? Math.floor(Math.random() * 10) : Math.floor(Math.random() * 5);
+          break;
+        case "Grup-4":
+          op = Math.random() < 0.5 ? "+" : "*";
+          a = Math.floor(Math.random() * 16);
+          b = op === "+" ? Math.floor(Math.random() * 16) : Math.floor(Math.random() * 6);
+          break;
+        case "Grup-5":
+          op = Math.random() < 0.5 ? "+" : "*";
+          a = Math.floor(Math.random() * 16);
+          b = op === "+" ? Math.floor(Math.random() * 16) : Math.floor(Math.random() * 11);
+          break;
+      }
+
+      currentAnswer = op === "+" ? a + b : a * b;
+      const opSymbol = op === "+" ? "+" : "×";
+      document.getElementById("question-text").textContent = `${a} ${opSymbol} ${b} işlemi kaç eder?`;
+      document.getElementById("answer-input").value = "";
+      document.getElementById("feedback").textContent = "";
+      updateDisplay();
+      document.getElementById("answer-input").focus();
+    }
+
+    function submitAnswer() {
+      const userAnswer = parseInt(document.getElementById("answer-input").value);
+      if (userAnswer === currentAnswer) {
+        points += 2;
+        document.getElementById("feedback").textContent = "🎉 Aferin! 2 puan kazandın!";
+      } else {
+        points = Math.max(0, points - 1);
+        document.getElementById("feedback").textContent = "❌ Bu yanlış oldu, 1 puan kaybettin.";
+      }
+
+      const previousLevelIndex = levelIndex;
+      levelIndex = Math.floor(points / 20);
+      if (levelIndex > previousLevelIndex && levelIndex < levels.length) {
+        alert(`🎉 Yeni seviyeye geçtin: ${getCurrentLevel()}!`);
+        launchConfetti();
+      }
+
+      updateDisplay();
+      setTimeout(nextQuestion, 1500);
+    }
+
+    function updateDisplay() {
+      document.getElementById("points").textContent = points;
+      document.getElementById("game-points").textContent = points;
+      document.getElementById("level").textContent = getCurrentLevel();
+      document.getElementById("game-level").textContent = getCurrentLevel();
+    }
+
+    function launchConfetti() {
+      const confettiContainer = document.getElementById("confetti");
+      confettiContainer.innerHTML = "";
+      confettiContainer.style.display = "block";
+
+      for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti-piece");
+        confetti.style.left = `${Math.random() * 100}%`;
+        confetti.style.top = `-${Math.random() * 20}px`;
+        confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        confettiContainer.appendChild(confetti);
+      }
+
+      setTimeout(() => {
+        confettiContainer.style.display = "none";
+      }, 2000);
+    }
+
+    // Enter key to submit
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("answer-input").addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          submitAnswer();
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
