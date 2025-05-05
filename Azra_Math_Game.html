@@ -173,6 +173,11 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
+      // Update points and level in the main section
+      document.getElementById("points").textContent = points;
+      document.getElementById("level").textContent = getCurrentLevel();
+
+      // Add "Enter" key functionality for the answer input
       document.getElementById("answer-input").addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
           submitAnswer();
