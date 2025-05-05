@@ -44,6 +44,32 @@
         opacity: 0;
       }
     }
+    #leaderboard-section {
+      margin-top: 30px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background-color: #f9f9f9;
+      text-align: left;
+      display: inline-block;
+      width: 80%;
+      max-width: 400px;
+    }
+
+    #leaderboard-section h2 {
+      text-align: center;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    #leaderboard-section ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    #leaderboard-section ul li {
+      margin-bottom: 5px;
+    }
   </style>
 </head>
 <body>
@@ -66,6 +92,20 @@
   </div>
 
   <div id="confetti"></div>
+
+  <div id="leaderboard-section">
+    <h2>Liderlik Tablosu</h2>
+    <p><strong>Mevcut Puanın:</strong> <span id="leaderboard-points">0</span></p>
+    <p><strong>Mevcut Seviyen:</strong> <span id="leaderboard-level">Grup-1</span></p>
+    <h3>Seviye Zorlukları:</h3>
+    <ul id="level-challenges">
+      <!-- Challenges will be dynamically added here -->
+    </ul>
+  </div>
+
+  <!-- Add audio elements -->
+  <audio id="correct-sound" src="sounds/correct.mp3"></audio>
+  <audio id="incorrect-sound" src="sounds/incorrect.mp3"></audio>
 
   <script>
     let points = parseInt(localStorage.getItem('points')) || 0;
@@ -126,12 +166,17 @@
 
     function submitAnswer() {
       const userAnswer = parseInt(document.getElementById("answer-input").value);
+      const correctSound = document.getElementById("correct-sound");
+      const incorrectSound = document.getElementById("incorrect-sound");
+
       if (userAnswer === currentAnswer) {
         points += 2;
         document.getElementById("feedback").textContent = "🎉 Aferin! 2 puan kazandın!";
+        correctSound.play(); // Play correct sound
       } else {
         points = Math.max(0, points - 1);
         document.getElementById("feedback").textContent = "❌ Bu yanlış oldu, 1 puan kaybettin.";
+        incorrectSound.play(); // Play incorrect sound
       }
 
       localStorage.setItem('points', points);
@@ -177,6 +222,9 @@
       document.getElementById("points").textContent = points;
       document.getElementById("level").textContent = getCurrentLevel();
 
+      // Update leaderboard
+      updateLeaderboard();
+
       // Add "Enter" key functionality for the answer input
       document.getElementById("answer-input").addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
@@ -184,6 +232,29 @@
         }
       });
     });
+
+    function updateLeaderboard() {
+      const challenges = {
+        "Grup-1": "Toplama işlemleri (0-9 arası sayılar).",
+        "Grup-2": "Toplama ve çarpma işlemleri (0-9 arası sayılar).",
+        "Grup-3": "Toplama ve çarpma işlemleri (0-9 arası sayılar, çarpma için 0-4).",
+        "Grup-4": "Toplama ve çarpma işlemleri (0-15 arası sayılar, çarpma için 0-5).",
+        "Grup-5": "Toplama ve çarpma işlemleri (0-15 arası sayılar, çarpma için 0-10)."
+      };
+
+      // Update points and level
+      document.getElementById("leaderboard-points").textContent = points;
+      document.getElementById("leaderboard-level").textContent = getCurrentLevel();
+
+      // Update challenges
+      const levelChallenges = document.getElementById("level-challenges");
+      levelChallenges.innerHTML = ""; // Clear existing challenges
+      for (const [level, description] of Object.entries(challenges)) {
+        const li = document.createElement("li");
+        li.textContent = `${level}: ${description}`;
+        levelChallenges.appendChild(li);
+      }
+    }
   </script>
 
 </body>
