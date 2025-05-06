@@ -85,7 +85,7 @@
     <p><strong>Puanın:</strong> <span id="game-points">0</span></p>
     <p><strong>Seviyen:</strong> <span id="game-level">Grup-1</span></p>
     <p id="question-text">Soru burada gözükecek</p>
-    <input type="number" id="answer-input" placeholder="Cevabını yaz">
+    <input type="number" id="answer-input" placeholder="Cevabını yaz" oninput="validateInput(this)">
     <br>
     <button onclick="submitAnswer()">Cevabı Gönder</button>
     <p id="feedback"></p>
@@ -164,12 +164,25 @@
       document.getElementById("answer-input").focus();
     }
 
+    function validateInput(input) {
+      // Remove any non-numeric characters
+      input.value = input.value.replace(/[^0-9]/g, '');
+    }
+
     function submitAnswer() {
-      const userAnswer = parseInt(document.getElementById("answer-input").value);
+      const userAnswer = document.getElementById("answer-input").value.trim();
+
+      // Check if the input is empty or not a valid number
+      if (userAnswer === "" || isNaN(userAnswer)) {
+        document.getElementById("feedback").textContent = "Lütfen geçerli bir sayı gir!";
+        return;
+      }
+
+      const parsedAnswer = parseInt(userAnswer);
       const correctSound = document.getElementById("correct-sound");
       const incorrectSound = document.getElementById("incorrect-sound");
 
-      if (userAnswer === currentAnswer) {
+      if (parsedAnswer === currentAnswer) {
         points += 2;
         document.getElementById("feedback").textContent = "🎉 Aferin! 2 puan kazandın!";
         correctSound.play(); // Play correct sound
