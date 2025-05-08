@@ -92,16 +92,38 @@
     #leaderboard-section {
       display: block; /* Make the leaderboard visible initially */
     }
+
+    input[disabled] {
+      background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 5px;
+      font-size: 16px;
+      text-align: center;
+      color: #333;
+      width: 150px;
+      margin: 5px 0;
+    }
+
+    input[disabled]::placeholder {
+      color: #aaa;
+    }
   </style>
 </head>
 <body>
 
   <div id="main-section">
     <h1>Hoş geldin tatlı kızım AZRA !!</h1>
-    <p>Mevcut seviyen: <span id="level">Grup-1</span></p>
-    <p>Puanın: <span id="points">0</span></p>
+    <p>
+      <strong>Mevcut seviyen:</strong>
+      <input type="text" id="level" value="Grup-1" disabled>
+    </p>
+    <p>
+      <strong>Puanın:</strong>
+      <input type="text" id="points" value="0" disabled>
+    </p>
     <button onclick="startGame()">Oyuna Başla</button>
-    <button onclick="resetGame()">Oyunu Sıfırla</button> <!-- Reset Game Button -->
+    <button onclick="resetGame()">Oyunu Sıfırla</button>
   </div>
 
   <div id="game-section">
