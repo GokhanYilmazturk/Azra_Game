@@ -101,6 +101,7 @@
     <p>Mevcut seviyen: <span id="level">Grup-1</span></p>
     <p>Puanın: <span id="points">0</span></p>
     <button onclick="startGame()">Oyuna Başla</button>
+    <button onclick="resetGame()">Oyunu Sıfırla</button> <!-- Reset Game Button -->
   </div>
 
   <div id="game-section">
@@ -325,6 +326,23 @@
         li.textContent = `${level}: ${description}`;
         levelChallenges.appendChild(li);
       }
+    }
+
+    function resetGame() {
+      // Reset points and level index
+      points = 0;
+      levelIndex = 0;
+
+      // Update localStorage
+      localStorage.setItem('points', points);
+
+      // Update the display
+      document.getElementById("points").textContent = points;
+      document.getElementById("level").textContent = getCurrentLevel();
+      document.getElementById("leaderboard-points").textContent = points;
+      document.getElementById("leaderboard-level").textContent = getCurrentLevel();
+
+      alert("Oyun sıfırlandı! Yeni bir başlangıç yapabilirsin.");
     }
   </script>
 
