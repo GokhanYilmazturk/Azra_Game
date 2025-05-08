@@ -192,6 +192,24 @@
       input.value = input.value.replace(/[^0-9]/g, '');
     }
 
+    function playRandomSound(type) {
+      // Define the available sound files for correct answers
+      const correctSounds = ["sounds/correct1.m4a", "sounds/correct2.m4a", "sounds/correct3.m4a",
+                            "sounds/correct4.m4a", "sounds/correct5.m4a", "sounds/correct6.m4a"];
+      // Define the available sound files for incorrect answers
+      const incorrectSounds = ["sounds/incorrect1.m4a", "sounds/incorrect2.m4a", "sounds/incorrect3.m4a"];
+
+      // Select the appropriate sound array based on the type
+      const sounds = type === "correct" ? correctSounds : incorrectSounds;
+
+      // Randomly select a sound file
+      const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
+
+      // Create a new audio element and play the sound
+      const audio = new Audio(randomSound);
+      audio.play();
+    }
+
     function submitAnswer() {
       const userAnswer = document.getElementById("answer-input").value.trim();
 
@@ -202,29 +220,34 @@
       }
 
       const parsedAnswer = parseInt(userAnswer);
-      const correctSound = document.getElementById("correct-sound");
-      const incorrectSound = document.getElementById("incorrect-sound");
 
       if (parsedAnswer === currentAnswer) {
         points += 2;
         document.getElementById("feedback").textContent = "🎉 Aferin! 2 puan kazandın!";
-        correctSound.play(); // Play correct sound
+        playRandomSound("correct"); // Play a random correct sound
       } else {
         points = Math.max(0, points - 1);
         document.getElementById("feedback").textContent = "❌ Bu yanlış oldu, 1 puan kaybettin.";
-        incorrectSound.play(); // Play incorrect sound
+        playRandomSound("incorrect"); // Play a random incorrect sound
       }
 
       localStorage.setItem('points', points);
       const previousLevelIndex = levelIndex;
       levelIndex = Math.floor(points / 20);
+
       if (levelIndex > previousLevelIndex && levelIndex < levels.length) {
         alert(`🎉 Yeni seviyeye geçtin: ${getCurrentLevel()}!`);
+        playLevelUpSound(); // Play the level-up sound
         launchConfetti();
       }
 
       updateDisplay();
       setTimeout(nextQuestion, 1500);
+    }
+
+    function playLevelUpSound() {
+      const levelUpSound = new Audio("sounds/level-up.mpeg");
+      levelUpSound.play();
     }
 
     function updateDisplay() {
