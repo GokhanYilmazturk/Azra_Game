@@ -8,6 +8,10 @@
       font-family: Arial, sans-serif;
       text-align: center;
       margin-top: 50px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: background-image 0.5s ease-in-out;
     }
     #game-section {
       display: none;
@@ -70,6 +74,20 @@
     #leaderboard-section ul li {
       margin-bottom: 5px;
     }
+
+    #main-section {
+      background-image: url('images/start-screen.png'); /* Add your start screen image */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      padding: 20px;
+      border-radius: 10px;
+      display: inline-block;
+    }
+
+    #game-section, #leaderboard-section {
+      display: none; /* Hide these sections initially */
+    }
   </style>
 </head>
 <body>
@@ -118,8 +136,9 @@
     }
 
     function startGame() {
-      document.getElementById("main-section").style.display = "none";
-      document.getElementById("game-section").style.display = "block";
+      document.getElementById("main-section").style.display = "none"; // Hide the start screen
+      document.getElementById("game-section").style.display = "block"; // Show the game section
+      document.getElementById("leaderboard-section").style.display = "none"; // Hide the leaderboard
       nextQuestion();
     }
 
@@ -209,6 +228,18 @@
       document.getElementById("game-points").textContent = points;
       document.getElementById("level").textContent = getCurrentLevel();
       document.getElementById("game-level").textContent = getCurrentLevel();
+
+      // Change background image based on the current level
+      const levelBackgrounds = {
+        "Grup-1": "images/level1.png",
+        "Grup-2": "images/level2.png",
+        "Grup-3": "images/level3.png",
+        "Grup-4": "images/level4.png",
+        "Grup-5": "images/level5.png"
+      };
+
+      const currentLevel = getCurrentLevel();
+      document.body.style.backgroundImage = `url('${levelBackgrounds[currentLevel]}')`;
     }
 
     function launchConfetti() {
