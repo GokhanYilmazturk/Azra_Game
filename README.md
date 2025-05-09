@@ -1,6 +1,8 @@
 # Matematik Oyunu - Web Uygulaması
 
 Bu web uygulaması, 6-8 yaşındaki çocuklar için eğlenceli ve öğretici bir matematik oyunu sunar.
+Ornek oyun Netlify'a deploy edildi : https://app.netlify.com/sites/splendid-cupcake-7c75ef/deploys/6818bcd7c9fe8aa5e9dd8908
+Oyunu denemek icin bu link kullanilabilir : https://splendid-cupcake-7c75ef.netlify.app/azra_math_game.html
 
 ## Özellikler
 
