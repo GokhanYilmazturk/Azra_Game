@@ -108,6 +108,10 @@
     input[disabled]::placeholder {
       color: #aaa;
     }
+
+    body.level-4 {
+      color: #fff;
+    }
   </style>
 </head>
 <body>
@@ -134,6 +138,7 @@
     <br>
     <button onclick="submitAnswer()">Cevabı Gönder</button>
     <p id="feedback"></p>
+    <p id="combo-timer" style="display:none; font-weight:bold; color:red; font-size:18px;"></p>
   </div>
 
   <div id="confetti"></div>
@@ -157,6 +162,10 @@
     let levelIndex = Math.floor(points / 20);
     const levels = ["Grup-1", "Grup-2", "Grup-3", "Grup-4", "Grup-5"];
     let currentAnswer = 0;
+    let correctStreak = 0;
+    let isComboQuestion = false;
+    let comboTimer = null;
+    let comboTimeLeft = 10;
 
     function getCurrentLevel() {
       return levels[Math.min(levelIndex, levels.length - 1)];
@@ -236,7 +245,6 @@
     function submitAnswer() {
       const userAnswer = document.getElementById("answer-input").value.trim();
 
-      // Check if the input is empty or not a valid number
       if (userAnswer === "" || isNaN(userAnswer)) {
         document.getElementById("feedback").textContent = "Lütfen geçerli bir sayı gir!";
         return;
@@ -244,23 +252,47 @@
 
       const parsedAnswer = parseInt(userAnswer);
 
+      if (isComboQuestion) {
+        clearInterval(comboTimer);
+        document.getElementById("combo-timer").style.display = "none";
+        isComboQuestion = false;
+        if (parsedAnswer === currentAnswer) {
+          points += 5;
+          document.getElementById("feedback").textContent = "🔥 KOMBO! 5 puan kazandın!";
+          playRandomSound("correct");
+        } else {
+          document.getElementById("feedback").textContent = "⏰ Komboda yanlış cevap!";
+          playRandomSound("incorrect");
+        }
+        correctStreak = 0;
+        localStorage.setItem('points', points);
+        updateDisplay();
+        setTimeout(nextQuestion, 1500);
+        return;
+      }
+
       if (parsedAnswer === currentAnswer) {
         points += 2;
+        correctStreak++;
         document.getElementById("feedback").textContent = "🎉 Aferin! 2 puan kazandın!";
-        playRandomSound("correct"); // Play a random correct sound
+        playRandomSound("correct");
+        if (correctStreak >= 3) {
+          setTimeout(askComboQuestion, 1200);
+          return;
+        }
       } else {
         points = Math.max(0, points - 1);
+        correctStreak = 0;
         document.getElementById("feedback").textContent = "❌ Bu yanlış oldu, 1 puan kaybettin.";
-        playRandomSound("incorrect"); // Play a random incorrect sound
+        playRandomSound("incorrect");
       }
 
       localStorage.setItem('points', points);
       const previousLevelIndex = levelIndex;
       levelIndex = Math.floor(points / 20);
-
       if (levelIndex > previousLevelIndex && levelIndex < levels.length) {
         alert(`🎉 Yeni seviyeye geçtin: ${getCurrentLevel()}!`);
-        playLevelUpSound(); // Play the level-up sound
+        playLevelUpSound();
         launchConfetti();
       }
 
@@ -290,6 +322,13 @@
 
       const currentLevel = getCurrentLevel();
       document.body.style.backgroundImage = `url('${levelBackgrounds[currentLevel]}')`;
+
+      // Set font color to white for Level-4, otherwise default
+      if (currentLevel === "Grup-4") {
+        document.body.classList.add("level-4");
+      } else {
+        document.body.classList.remove("level-4");
+      }
     }
 
     function launchConfetti() {
@@ -365,6 +404,97 @@
       document.getElementById("leaderboard-level").textContent = getCurrentLevel();
 
       alert("Oyun sıfırlandı! Yeni bir başlangıç yapabilirsin.");
+    }
+
+    function askComboQuestion() {
+      isComboQuestion = true;
+      comboTimeLeft = 10;
+      document.getElementById("combo-timer").textContent = `KOMBO SORUSU! Süre: ${comboTimeLeft} sn`;
+      document.getElementById("combo-timer").style.display = "block";
+      document.getElementById("feedback").textContent = "KOMBO SORUSU! Doğru cevaba 5 puan!";
+
+      // Determine which level to use for the combo question
+      let comboLevelIndex = Math.min(levelIndex + 1, levels.length - 1);
+      let comboLevel = levels[comboLevelIndex];
+      let a, b, c, op1, op2, questionText;
+
+      if (levelIndex === levels.length - 1) {
+        // If at top level, ask a question with two operations
+        a = Math.floor(Math.random() * 16);
+        b = Math.floor(Math.random() * 11);
+        c = Math.floor(Math.random() * 10);
+        op1 = Math.random() < 0.5 ? "+" : "*";
+        op2 = Math.random() < 0.5 ? "+" : "*";
+        // Calculate answer with correct operator precedence
+        if (op1 === "+" && op2 === "+") {
+          currentAnswer = a + b + c;
+          questionText = `${a} + ${b} + ${c} işlemi kaç eder?`;
+        } else if (op1 === "+" && op2 === "*") {
+          currentAnswer = a + (b * c);
+          questionText = `${a} + ${b} × ${c} işlemi kaç eder?`;
+        } else if (op1 === "*" && op2 === "+") {
+          currentAnswer = (a * b) + c;
+          questionText = `${a} × ${b} + ${c} işlemi kaç eder?`;
+        } else {
+          currentAnswer = a * b * c;
+          questionText = `${a} × ${b} × ${c} işlemi kaç eder?`;
+        }
+      } else {
+        // Otherwise, ask a question from the next level's logic
+        switch (comboLevel) {
+          case "Grup-1":
+            a = Math.floor(Math.random() * 10);
+            b = Math.floor(Math.random() * 10);
+            currentAnswer = a + b;
+            questionText = `${a} + ${b} işlemi kaç eder?`;
+            break;
+          case "Grup-2":
+            op1 = Math.random() < 0.5 ? "+" : "*";
+            a = Math.floor(Math.random() * 10);
+            b = op1 === "+" ? Math.floor(Math.random() * 10) : Math.floor(Math.random() * 3);
+            currentAnswer = op1 === "+" ? a + b : a * b;
+            questionText = `${a} ${op1 === "+" ? "+" : "×"} ${b} işlemi kaç eder?`;
+            break;
+          case "Grup-3":
+            op1 = Math.random() < 0.5 ? "+" : "*";
+            a = Math.floor(Math.random() * 10);
+            b = op1 === "+" ? Math.floor(Math.random() * 10) : Math.floor(Math.random() * 5);
+            currentAnswer = op1 === "+" ? a + b : a * b;
+            questionText = `${a} ${op1 === "+" ? "+" : "×"} ${b} işlemi kaç eder?`;
+            break;
+          case "Grup-4":
+            op1 = Math.random() < 0.5 ? "+" : "*";
+            a = Math.floor(Math.random() * 16);
+            b = op1 === "+" ? Math.floor(Math.random() * 16) : Math.floor(Math.random() * 6);
+            currentAnswer = op1 === "+" ? a + b : a * b;
+            questionText = `${a} ${op1 === "+" ? "+" : "×"} ${b} işlemi kaç eder?`;
+            break;
+          case "Grup-5":
+            op1 = Math.random() < 0.5 ? "+" : "*";
+            a = Math.floor(Math.random() * 16);
+            b = op1 === "+" ? Math.floor(Math.random() * 16) : Math.floor(Math.random() * 11);
+            currentAnswer = op1 === "+" ? a + b : a * b;
+            questionText = `${a} ${op1 === "+" ? "+" : "×"} ${b} işlemi kaç eder?`;
+            break;
+        }
+      }
+
+      document.getElementById("question-text").textContent = questionText;
+      document.getElementById("answer-input").value = "";
+      document.getElementById("answer-input").focus();
+
+      comboTimer = setInterval(() => {
+        comboTimeLeft--;
+        document.getElementById("combo-timer").textContent = `KOMBO SORUSU! Süre: ${comboTimeLeft} sn`;
+        if (comboTimeLeft <= 0) {
+          clearInterval(comboTimer);
+          document.getElementById("combo-timer").style.display = "none";
+          isComboQuestion = false;
+          document.getElementById("feedback").textContent = "⏰ Süre doldu! Komboyu kaçırdın.";
+          correctStreak = 0;
+          setTimeout(nextQuestion, 1500);
+        }
+      }, 1000);
     }
   </script>
 
