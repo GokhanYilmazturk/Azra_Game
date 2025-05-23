@@ -112,6 +112,38 @@
     body.level-4 {
       color: #fff;
     }
+
+    /* Sudoku styles */
+    #sudoku-section {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    #sudoku-table {
+      margin: 0 auto;
+      border-collapse: collapse;
+    }
+
+    #sudoku-table td {
+      width: 40px;
+      height: 40px;
+      border: 1px solid #ccc;
+    }
+
+    #sudoku-table input[type="text"] {
+      width: 32px;
+      height: 32px;
+      text-align: center;
+      font-size: 18px;
+      border: 1px solid #888;
+      margin: 2px;
+    }
+
+    #sudoku-table input[disabled] {
+      background: #eee;
+      color: #888;
+    }
   </style>
 </head>
 <body>
@@ -128,6 +160,7 @@
     </p>
     <button onclick="startGame()">Oyuna Başla</button>
     <button onclick="resetGame()">Oyunu Sıfırla</button>
+    <button onclick="showSudoku()">Sudoku Çöz</button>
   </div>
 
   <div id="game-section">
@@ -153,6 +186,44 @@
     </ul>
   </div>
 
+  <div id="sudoku-section">
+    <h2>Mini Sudoku</h2>
+    <p>Aşağıdaki Sudoku'yu çöz ve "Kontrol Et"e bas!</p>
+    <table id="sudoku-table">
+      <tbody>
+        <tr>
+          <td><input type="text" maxlength="1" size="1" id="s00"></td>
+          <td><input type="text" maxlength="1" size="1" id="s01"></td>
+          <td><input type="text" maxlength="1" size="1" id="s02"></td>
+          <td><input type="text" maxlength="1" size="1" id="s03"></td>
+        </tr>
+        <tr>
+          <td><input type="text" maxlength="1" size="1" id="s10"></td>
+          <td><input type="text" maxlength="1" size="1" id="s11"></td>
+          <td><input type="text" maxlength="1" size="1" id="s12"></td>
+          <td><input type="text" maxlength="1" size="1" id="s13"></td>
+        </tr>
+        <tr>
+          <td><input type="text" maxlength="1" size="1" id="s20"></td>
+          <td><input type="text" maxlength="1" size="1" id="s21"></td>
+          <td><input type="text" maxlength="1" size="1" id="s22"></td>
+          <td><input type="text" maxlength="1" size="1" id="s23"></td>
+        </tr>
+        <tr>
+          <td><input type="text" maxlength="1" size="1" id="s30"></td>
+          <td><input type="text" maxlength="1" size="1" id="s31"></td>
+          <td><input type="text" maxlength="1" size="1" id="s32"></td>
+          <td><input type="text" maxlength="1" size="1" id="s33"></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <button onclick="checkSudoku()">Kontrol Et</button>
+    <button onclick="generateAndShowSudoku()">Yeni Sudoku</button>
+    <button onclick="backToMain()">Geri Dön</button>
+    <p id="sudoku-feedback"></p>
+  </div>
+
   <!-- Add audio elements -->
   <audio id="correct-sound" src="sounds/correct.mp3"></audio>
   <audio id="incorrect-sound" src="sounds/incorrect.mp3"></audio>
@@ -166,6 +237,7 @@
     let isComboQuestion = false;
     let comboTimer = null;
     let comboTimeLeft = 10;
+    let currentSudokuSolution = [];
 
     function getCurrentLevel() {
       return levels[Math.min(levelIndex, levels.length - 1)];
@@ -495,6 +567,101 @@
           setTimeout(nextQuestion, 1500);
         }
       }, 1000);
+    }
+
+    function generateSudoku4x4() {
+      // A valid 4x4 sudoku solution
+      const base = [
+        [1, 2, 3, 4],
+        [3, 4, 1, 2],
+        [2, 1, 4, 3],
+        [4, 3, 2, 1]
+      ];
+
+      // Shuffle rows within each band
+      for (let band = 0; band < 4; band += 2) {
+        if (Math.random() < 0.5) {
+          [base[band], base[band + 1]] = [base[band + 1], base[band]];
+        }
+      }
+      // Shuffle columns within each stack
+      for (let stack = 0; stack < 4; stack += 2) {
+        if (Math.random() < 0.5) {
+          for (let row = 0; row < 4; row++) {
+            [base[row][stack], base[row][stack + 1]] = [base[row][stack + 1], base[row][stack]];
+          }
+        }
+      }
+      // Deep copy for solution
+      return base.map(row => row.slice());
+    }
+
+    function backToMain() {
+      document.getElementById("main-section").style.display = "block";
+      document.getElementById("game-section").style.display = "none";
+      document.getElementById("leaderboard-section").style.display = "block";
+      document.getElementById("sudoku-section").style.display = "none";
+    }
+
+    function generateAndShowSudoku() {
+      document.getElementById("sudoku-feedback").textContent = "";
+      // Generate a new sudoku
+      currentSudokuSolution = generateSudoku4x4();
+
+      // Decide which cells to blank (e.g., blank 8 random cells)
+      let blanks = new Set();
+      while (blanks.size < 8) {
+        blanks.add(Math.floor(Math.random() * 16));
+      }
+
+      // Fill the table
+      for (let r = 0; r < 4; r++) {
+        for (let c = 0; c < 4; c++) {
+          const cell = document.getElementById(`s${r}${c}`);
+          const idx = r * 4 + c;
+          cell.style.background = ""; // reset background
+          if (blanks.has(idx)) {
+            cell.value = "";
+            cell.disabled = false;
+          } else {
+            cell.value = currentSudokuSolution[r][c];
+            cell.disabled = true;
+          }
+        }
+      }
+    }
+
+    function showSudoku() {
+      document.getElementById("main-section").style.display = "none";
+      document.getElementById("game-section").style.display = "none";
+      document.getElementById("leaderboard-section").style.display = "none";
+      document.getElementById("sudoku-section").style.display = "block";
+      generateAndShowSudoku();
+    }
+
+    function checkSudoku() {
+      let correct = true;
+      for (let r = 0; r < 4; r++) {
+        for (let c = 0; c < 4; c++) {
+          const cell = document.getElementById(`s${r}${c}`);
+          if (!cell.disabled) {
+            if (parseInt(cell.value) !== currentSudokuSolution[r][c]) {
+              correct = false;
+              cell.style.background = "#ffcccc";
+            } else {
+              cell.style.background = "#ccffcc";
+            }
+          }
+        }
+      }
+      if (correct) {
+        document.getElementById("sudoku-feedback").textContent = "Tebrikler, doğru çözdün! Yeni bir sudoku geliyor...";
+        playLevelUpSound();
+        launchConfetti();
+        setTimeout(generateAndShowSudoku, 2000);
+      } else {
+        document.getElementById("sudoku-feedback").textContent = "Bazı cevaplar yanlış, tekrar dene!";
+      }
     }
   </script>
 
