@@ -19,33 +19,7 @@ button {
   font-size: 16px;
   margin-top: 10px;
 }
-/* REMOVED THESE STYLES */
-/*
-#confetti {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  display: none;
-  z-index: 100;
-}
-.confetti-piece {
-  width: 10px;
-  height: 10px;
-  background-color: gold;
-  position: absolute;
-  animation: fall 2s linear forwards;
-}
-@keyframes fall {
-  to {
-    transform: translateY(100vh) rotate(720deg);
-    opacity: 0;
-  }
-}
-*/
-/* ADDED NEW P5 SYLES*/
+
 #p5-canvas-container {
   position: fixed; /* Cover the whole screen */
   top: 0;
@@ -56,10 +30,12 @@ button {
   pointer-events: none; /* Allow clicks to pass through to elements underneath */
 }
 
-/* If the canvas itself needs styling (though p5 handles its display) */
 #p5-canvas-container canvas {
-    /* p5 sketch will handle display: none/block */
+  width: 100%;
+  height: 100%;
+  display: block; /* Ensures the canvas takes up the full container */
 }
+/* Fragment containers */
 #leaderboard-section-container #leaderboard-section, /* Adjusted selector */
 #main-section-container #main-section, /* Adjusted selector */
 #game-section-container #game-section, /* Adjusted selector */

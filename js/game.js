@@ -259,23 +259,9 @@ function updateDisplay() {
 }
 
 function launchConfetti() {
-  const confettiContainer = document.getElementById("confetti"); // This is in main HTML
-  if (!confettiContainer) return;
-  confettiContainer.innerHTML = "";
-  confettiContainer.style.display = "block";
-
-  for (let i = 0; i < 50; i++) {
-    const confetti = document.createElement("div");
-    confetti.classList.add("confetti-piece");
-    confetti.style.left = `${Math.random() * 100}%`;
-    confetti.style.top = `-${Math.random() * 20}px`;
-    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-    confettiContainer.appendChild(confetti);
+  if (typeof window.launchConfettiP5 === "function") {
+    window.launchConfettiP5();
   }
-
-  setTimeout(() => {
-    confettiContainer.style.display = "none";
-  }, 2000);
 }
 
 function updateLeaderboard() {
@@ -317,11 +303,13 @@ function resetGame() {
 function askComboQuestion() {
   isComboQuestion = true;
   comboTimeLeft = 10;
-  if(comboTimerElem) {
-      comboTimerElem.textContent = `KOMBO SORUSU! Süre: ${comboTimeLeft} sn`;
-      comboTimerElem.style.display = "block";
-  }
-  if(feedbackElem) feedbackElem.textContent = "KOMBO SORUSU! Doğru cevaba 5 puan!";
+  document.getElementById("combo-timer").textContent = `KOMBO SORUSU! Süre: ${comboTimeLeft} sn`;
+  document.getElementById("combo-timer").style.display = "block";
+  document.getElementById("feedback").textContent = "KOMBO SORUSU! Doğru cevaba 5 puan!";
+
+  // Play timer sound
+  const timerAudio = new Audio("sounds/timer.mpeg");
+  timerAudio.play();
 
   let comboLevelIndex = Math.min(levelIndex + 1, levels.length - 1);
   let comboLevel = levels[comboLevelIndex];
