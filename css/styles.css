@@ -1,0 +1,153 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin-top: 50px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background-image 0.5s ease-in-out;
+}
+/* #game-section will be handled by JS after fragment loading */
+/* #main-section will be handled by JS after fragment loading */
+
+input {
+  padding: 5px;
+  font-size: 16px;
+}
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin-top: 10px;
+}
+#confetti {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  display: none;
+  z-index: 100;
+}
+.confetti-piece {
+  width: 10px;
+  height: 10px;
+  background-color: gold;
+  position: absolute;
+  animation: fall 2s linear forwards;
+}
+@keyframes fall {
+  to {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+#leaderboard-section-container #leaderboard-section, /* Adjusted selector */
+#main-section-container #main-section, /* Adjusted selector */
+#game-section-container #game-section, /* Adjusted selector */
+#sudoku-section-container #sudoku-section { /* Adjusted selector */
+  padding: 20px;
+  border-radius: 10px;
+  display: inline-block; /* Or block if you prefer full width */
+}
+
+
+#leaderboard-section-container #leaderboard-section {
+  margin-top: 30px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  text-align: left;
+  width: 80%;
+  max-width: 400px;
+  /* display: block; Initially handled by JS */
+}
+
+#leaderboard-section-container #leaderboard-section h2 {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+#leaderboard-section-container #leaderboard-section ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+#leaderboard-section-container #leaderboard-section ul li {
+  margin-bottom: 5px;
+}
+
+#main-section-container #main-section { /* Adjusted selector */
+  background-image: url('../images/start-screen.png'); /* IMPORTANT: Path updated */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* #game-section will be handled by JS */
+/* #leaderboard-section will be handled by JS */
+
+
+input[disabled] {
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 16px;
+  text-align: center;
+  color: #333;
+  width: 150px;
+  margin: 5px 0;
+}
+
+input[disabled]::placeholder {
+  color: #aaa;
+}
+
+body.level-4 {
+  color: #fff;
+}
+
+/* Sudoku styles */
+#sudoku-section-container #sudoku-section { /* Adjusted selector */
+  /* display: none;  Initially handled by JS */
+  text-align: center;
+  margin-top: 20px;
+}
+
+#sudoku-section-container #sudoku-table { /* Adjusted selector */
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+
+#sudoku-section-container #sudoku-table td { /* Adjusted selector */
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ccc;
+}
+
+#sudoku-section-container #sudoku-table input[type="text"] { /* Adjusted selector */
+  width: 32px;
+  height: 32px;
+  text-align: center;
+  font-size: 18px;
+  border: 1px solid #888;
+  margin: 2px;
+}
+
+#sudoku-section-container #sudoku-table input[disabled] { /* Adjusted selector */
+  background: #eee;
+  color: #888;
+}
+
+/* Initially hide all fragment containers except the main one (or handle in JS) */
+#game-section-container,
+#sudoku-section-container {
+    display: none;
+}
+#leaderboard-section-container { /* Leaderboard is shown by default initially */
+    display: block;
+}
+#main-section-container {
+    display: block;
+}

@@ -1,0 +1,10 @@
+<div id="game-section">
+  <p><strong>Puanın:</strong> <span id="game-points">0</span></p>
+  <p><strong>Seviyen:</strong> <span id="game-level">Grup-1</span></p>
+  <p id="question-text">Soru burada gözükecek</p>
+  <input type="number" id="answer-input" placeholder="Cevabını yaz" oninput="validateInput(this)">
+  <br>
+  <button onclick="submitAnswer()">Cevabı Gönder</button>
+  <p id="feedback"></p>
+  <p id="combo-timer" style="display:none; font-weight:bold; color:red; font-size:18px;"></p>
+</div>

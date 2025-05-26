@@ -1,0 +1,37 @@
+<div id="sudoku-section">
+  <h2>Mini Sudoku</h2>
+  <p>Aşağıdaki Sudoku'yu çöz ve "Kontrol Et"e bas!</p>
+  <table id="sudoku-table">
+    <tbody>
+      <tr>
+        <td><input type="text" maxlength="1" size="1" id="s00"></td>
+        <td><input type="text" maxlength="1" size="1" id="s01"></td>
+        <td><input type="text" maxlength="1" size="1" id="s02"></td>
+        <td><input type="text" maxlength="1" size="1" id="s03"></td>
+      </tr>
+      <tr>
+        <td><input type="text" maxlength="1" size="1" id="s10"></td>
+        <td><input type="text" maxlength="1" size="1" id="s11"></td>
+        <td><input type="text" maxlength="1" size="1" id="s12"></td>
+        <td><input type="text" maxlength="1" size="1" id="s13"></td>
+      </tr>
+      <tr>
+        <td><input type="text" maxlength="1" size="1" id="s20"></td>
+        <td><input type="text" maxlength="1" size="1" id="s21"></td>
+        <td><input type="text" maxlength="1" size="1" id="s22"></td>
+        <td><input type="text" maxlength="1" size="1" id="s23"></td>
+      </tr>
+      <tr>
+        <td><input type="text" maxlength="1" size="1" id="s30"></td>
+        <td><input type="text" maxlength="1" size="1" id="s31"></td>
+        <td><input type="text" maxlength="1" size="1" id="s32"></td>
+        <td><input type="text" maxlength="1" size="1" id="s33"></td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <button onclick="checkSudoku()">Kontrol Et</button>
+  <button onclick="generateAndShowSudoku()">Yeni Sudoku</button>
+  <button onclick="backToMain()">Geri Dön</button>
+  <p id="sudoku-feedback"></p>
+</div>
