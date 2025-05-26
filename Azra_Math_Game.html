@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <title>Matematik Oyunu</title>
   <link rel="stylesheet" href="css/styles.css">
+  <!-- Add p5.js library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  <!-- Let's also add p5.sound.min.js I'm planning to use p5.js for sound later -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/addons/p5.sound.min.js"></script>
 </head>
 <body>
 
@@ -24,18 +28,21 @@
     <!-- sudoku_section.html will be loaded here -->
   </div>
 
-  <!-- Global Elements (like confetti, audio) -->
-  <div id="confetti"></div>
+  <!-- Global Elements -->
+  <!-- REMOVE the old confetti div: <div id="confetti"></div> -->
+  <!-- Add a container for p5.js canvas if you want to control its position explicitly -->
+  <div id="p5-canvas-container"></div>
 
-  <!-- Add audio elements - these paths are relative to Azra_Math_Game.html -->
+
+  <!-- Add audio elements -->
   <audio id="correct-sound" src="sounds/correct.mp3"></audio>
   <audio id="incorrect-sound" src="sounds/incorrect.mp3"></audio>
-  <!-- Note: You also have random sounds defined in JS (correct1.m4a etc.).
-       The original correct.mp3/incorrect.mp3 might not be used if random ones are always picked.
-       You can remove these two audio tags if playRandomSound always finds a sound from its lists.
-       Or keep them as a fallback if playRandomSound might not find a specific random sound.
-       I've added a fallback in playRandomSound. -->
 
   <script src="js/game.js"></script>
+  <!-- Add your p5.js sketch file AFTER game.js if it depends on game.js variables,
+       or if game.js needs to control the p5 sketch. For a self-contained confetti,
+       the order might not strictly matter, but it's good practice.
+       However, we'll control the p5 sketch from game.js, so game.js first is better. -->
+  <script src="js/confetti_sketch.js"></script>
 </body>
 </html>
