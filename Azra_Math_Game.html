@@ -7,8 +7,10 @@
       onload="this.rel='stylesheet'"
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Spline+Sans%3Awght%40400%3B500%3B700"
     />
+
     <title>Stitch Design</title>
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
@@ -51,12 +53,100 @@
         </header>
         <div class="px-40 flex flex-1 justify-center py-5">
           <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
-            <!-- Fragment containers -->
-            <div id="main-section-container"></div>
-            <div id="game-section-container" style="display:none"></div>
-            <div id="sudoku-section-container" style="display:none"></div>
-            <!-- Add leaderboard container if needed -->
-            <div id="leaderboard-section-container"></div>
+            <div class="@container">
+              <div class="@[480px]:px-4 @[480px]:py-3">
+                <div
+                  class="w-full bg-center bg-no-repeat bg-cover flex flex-col justify-end overflow-hidden bg-slate-50 @[480px]:rounded-xl min-h-[218px]"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA02Ghr8qKehXDphiJvJ5XrfnUPcVR5xe52F4T-0Wz-6qKkQC4VEZwceJSucAnNTKZbFic2Ddx0aDse_f62UO3o8_L7Runc0aIVOmNqf2fjSySCbeT0CCJKmE4GAloJS4UtnRNKN7vlja8D5l1Hud20BGnoPS5zfCCfLSC1U8EA0uVx6Uun4rbac9evAjOaKHatKYabxYEQ_nugK7FUvarS5eYKOzOxCRgtIviY71tH0-I6W7xiMRZ0r57wfBA57hfVTkeR8DYqG0rK");'
+                ></div>
+              </div>
+            </div>
+            <h2 class="text-[#0d171b] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">Welcome back, Lily!</h2>
+            <div class="flex flex-wrap gap-3 px-4 py-3">
+              <div class="flex min-w-[111px] flex-1 basis-[fit-content] flex-col gap-2 rounded-lg border border-[#cfdfe7] p-3 items-center text-center">
+                <p class="text-[#0d171b] tracking-light text-2xl font-bold leading-tight" id="main-points">0</p>
+                <div class="flex items-center gap-2"><p class="text-[#4c809a] text-sm font-normal leading-normal">Points</p></div>
+              </div>
+              <div class="flex min-w-[111px] flex-1 basis-[fit-content] flex-col gap-2 rounded-lg border border-[#cfdfe7] p-3 items-center text-center">
+                <p class="text-[#0d171b] tracking-light text-2xl font-bold leading-tight" id="main-level">1</p>
+                <div class="flex items-center gap-2"><p class="text-[#4c809a] text-sm font-normal leading-normal">Level</p></div>
+              </div>
+            </div>
+            <h2 class="text-[#0d171b] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Level Details</h2>
+            <div class="flex flex-col gap-3 p-4">
+              <div class="flex gap-6 justify-between"><p class="text-[#0d171b] text-base font-medium leading-normal">Level 5 Progress</p></div>
+              <div class="rounded bg-[#cfdfe7]"><div class="h-2 rounded bg-[#13a3eb]" style="width: 60%;"></div></div>
+              <p class="text-[#4c809a] text-sm font-normal leading-normal">60%</p>
+            </div>
+            <div class="flex justify-center">
+              <div class="flex flex-1 gap-3 max-w-[480px] flex-col items-stretch px-4 py-3">
+                <button id="start-game-btn" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#13a3eb] text-slate-50 text-sm font-bold leading-normal tracking-[0.015em] w-full">
+                  <span class="truncate">Start Game</span>
+                </button>
+                <button id="reset-game-btn" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#e7eff3] text-[#0d171b] text-sm font-bold leading-normal tracking-[0.015em] w-full">
+                  <span class="truncate">Reset Game</span>
+                </button>
+                <button id="play-sudoku-btn" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#e7eff3] text-[#0d171b] text-sm font-bold leading-normal tracking-[0.015em] w-full">
+                  <span class="truncate">Play Sudoku</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- GAME SECTION (hidden by default) -->
+            <div id="game-section" style="display:none;">
+              <h2 class="text-xl font-bold text-center py-2">Matematik Oyunu</h2>
+              <div class="flex flex-col items-center">
+                <p id="game-level-label">Seviye: <span id="game-level">1</span></p>
+                <p id="game-points-label">Puan: <span id="game-points">0</span></p>
+                <p id="question-text" class="font-bold text-lg py-2"></p>
+                <input type="number" id="answer-input" class="border rounded px-2 py-1 text-center" placeholder="Cevabını yaz">
+                <button onclick="submitAnswer()" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded">Cevapla</button>
+                <p id="feedback" class="py-2"></p>
+                <p id="combo-timer" style="display:none; font-weight:bold; color:red; font-size:18px;"></p>
+                <button onclick="backToMain()" class="mt-2 bg-gray-300 text-black px-4 py-2 rounded">Ana Menüye Dön</button>
+              </div>
+            </div>
+
+            <!-- SUDOKU SECTION (hidden by default) -->
+            <div id="sudoku-section" style="display:none;">
+              <h2 class="text-xl font-bold text-center py-2">Mini Sudoku</h2>
+              <p class="text-center">Aşağıdaki Sudoku'yu çöz ve "Kontrol Et"e bas!</p>
+              <table id="sudoku-table" class="mx-auto my-2 border-collapse">
+                <tbody>
+                  <!-- 4x4 sudoku grid, all inputs type="number" min="1" max="4" -->
+                  <tr>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s00"></td>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s01"></td>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s02"></td>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s03"></td>
+                  </tr>
+                  <tr>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s10"></td>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s11"></td>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s12"></td>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s13"></td>
+                  </tr>
+                  <tr>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s20"></td>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s21"></td>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s22"></td>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s23"></td>
+                  </tr>
+                  <tr>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s30"></td>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s31"></td>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s32"></td>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s33"></td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="flex gap-2 justify-center">
+                <button onclick="checkSudoku()" class="bg-blue-500 text-white px-4 py-2 rounded">Kontrol Et</button>
+                <button onclick="generateAndShowSudoku()" class="bg-green-500 text-white px-4 py-2 rounded">Yeni Sudoku</button>
+                <button onclick="backToMain()" class="bg-gray-300 text-black px-4 py-2 rounded">Ana Menüye Dön</button>
+              </div>
+              <p id="sudoku-feedback" class="text-center py-2"></p>
+            </div>
           </div>
         </div>
       </div>
@@ -75,62 +165,25 @@
     <script src="js/game.js"></script>
     <script src="js/confetti_sketch.js"></script>
     <script>
-      // Fragment loader utility
-      async function loadFragment(fragmentPath, containerId) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-        const response = await fetch(fragmentPath);
-        const html = await response.text();
-        container.innerHTML = html;
+      // Example: Button wiring for showing/hiding sections
+      document.getElementById("start-game-btn").onclick = function() {
+        document.getElementById("game-section").style.display = "block";
+        document.getElementById("sudoku-section").style.display = "none";
+        // Hide main content if needed
+      };
+      document.getElementById("reset-game-btn").onclick = function() {
+        if (typeof resetGame === "function") resetGame();
+      };
+      document.getElementById("play-sudoku-btn").onclick = function() {
+        document.getElementById("game-section").style.display = "none";
+        document.getElementById("sudoku-section").style.display = "block";
+        if (typeof generateAndShowSudoku === "function") generateAndShowSudoku();
+      };
+      function backToMain() {
+        document.getElementById("game-section").style.display = "none";
+        document.getElementById("sudoku-section").style.display = "none";
+        // Show main content if you hide it
       }
-
-      // Load all fragments on page load
-      document.addEventListener("DOMContentLoaded", async function() {
-        await Promise.all([
-          loadFragment("fragments/main_section.html", "main-section-container"),
-          loadFragment("fragments/game_section.html", "game-section-container"),
-          loadFragment("fragments/sudoku_section.html", "sudoku-section-container"),
-          // Add leaderboard if you have a fragment for it
-          // loadFragment("fragments/leaderboard_section.html", "leaderboard-section-container"),
-        ]);
-
-        // Example: Button wiring for showing/hiding sections
-        // You may need to delegate or re-bind after fragment load
-        document.getElementById("main-section-container").addEventListener("click", function(e) {
-          if (e.target.matches("button[onclick^='startGame']")) {
-            document.getElementById("main-section-container").style.display = "none";
-            document.getElementById("game-section-container").style.display = "block";
-            document.getElementById("sudoku-section-container").style.display = "none";
-          }
-          if (e.target.matches("button[onclick^='showSudoku']")) {
-            document.getElementById("main-section-container").style.display = "none";
-            document.getElementById("game-section-container").style.display = "none";
-            document.getElementById("sudoku-section-container").style.display = "block";
-            if (typeof generateAndShowSudoku === "function") generateAndShowSudoku();
-          }
-          if (e.target.matches("button[onclick^='resetGame']")) {
-            if (typeof resetGame === "function") resetGame();
-          }
-        });
-
-        // Sudoku section back button
-        document.getElementById("sudoku-section-container").addEventListener("click", function(e) {
-          if (e.target.matches("button[onclick^='backToMain']")) {
-            document.getElementById("main-section-container").style.display = "block";
-            document.getElementById("game-section-container").style.display = "none";
-            document.getElementById("sudoku-section-container").style.display = "none";
-          }
-        });
-
-        // Game section back button
-        document.getElementById("game-section-container").addEventListener("click", function(e) {
-          if (e.target.matches("button[onclick^='backToMain']")) {
-            document.getElementById("main-section-container").style.display = "block";
-            document.getElementById("game-section-container").style.display = "none";
-            document.getElementById("sudoku-section-container").style.display = "none";
-          }
-        });
-      });
     </script>
   </body>
 </html>
