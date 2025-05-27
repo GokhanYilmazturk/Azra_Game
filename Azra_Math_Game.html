@@ -1,48 +1,189 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="UTF-8">
-  <title>Matematik Oyunu</title>
-  <link rel="stylesheet" href="css/styles.css">
-  <!-- Add p5.js library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
-  <!-- Let's also add p5.sound.min.js I'm planning to use p5.js for sound later -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/addons/p5.sound.min.js"></script>
-</head>
-<body>
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Spline+Sans%3Awght%40400%3B500%3B700"
+    />
 
-  <!-- Fragment Containers -->
-  <div id="main-section-container">
-    <!-- main_section.html will be loaded here -->
-  </div>
+    <title>Stitch Design</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
 
-  <div id="game-section-container">
-    <!-- game_section.html will be loaded here -->
-  </div>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/addons/p5.sound.min.js"></script>
+  </head>
+  <body>
+    <div class="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style='font-family: "Spline Sans", "Noto Sans", sans-serif;'>
+      <div class="layout-container flex h-full grow flex-col">
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7eff3] px-10 py-3">
+          <div class="flex items-center gap-4 text-[#0d171b]">
+            <div class="size-4">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fill="currentColor"></path>
+              </svg>
+            </div>
+            <h2 class="text-[#0d171b] text-lg font-bold leading-tight tracking-[-0.015em]">Math Whiz</h2>
+          </div>
+          <div class="flex flex-1 justify-end gap-8">
+            <div class="flex items-center gap-9">
+              <a class="text-[#0d171b] text-sm font-medium leading-normal" href="#">Home</a>
+              <a class="text-[#0d171b] text-sm font-medium leading-normal" href="#">Levels</a>
+              <a class="text-[#0d171b] text-sm font-medium leading-normal" href="#">Leaderboard</a>
+            </div>
+            <button
+              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 bg-[#e7eff3] text-[#0d171b] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
+            >
+              <div class="text-[#0d171b]" data-icon="Gear" data-size="20px" data-weight="regular">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                  <path
+                    d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Zm-16.1-6.5a73.93,73.93,0,0,1,0,8.68,8,8,0,0,0,1.74,5.48l14.19,17.73a91.57,91.57,0,0,1-6.23,15L187,173.11a8,8,0,0,0-5.1,2.64,74.11,74.11,0,0,1-6.14,6.14,8,8,0,0,0-2.64,5.1l-2.51,22.58a91.32,91.32,0,0,1-15,6.23l-17.74-14.19a8,8,0,0,0-5-1.75h-.48a73.93,73.93,0,0,1-8.68,0,8,8,0,0,0-5.48,1.74L100.45,215.8a91.57,91.57,0,0,1-15-6.23L82.89,187a8,8,0,0,0-2.64-5.1,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-5.1-2.64L46.43,170.6a91.32,91.32,0,0,1-6.23-15l14.19-17.74a8,8,0,0,0,1.74-5.48,73.93,73.93,0,0,1,0-8.68,8,8,0,0,0-1.74-5.48L40.2,100.45a91.57,91.57,0,0,1,6.23-15L69,82.89a8,8,0,0,0,5.1-2.64,74.11,74.11,0,0,1,6.14-6.14A8,8,0,0,0,82.89,69L85.4,46.43a91.32,91.32,0,0,1,15-6.23l17.74,14.19a8,8,0,0,0,5.48,1.74,73.93,73.93,0,0,1,8.68,0,8,8,0,0,0,5.48-1.74L155.55,40.2a91.57,91.57,0,0,1,15,6.23L173.11,69a8,8,0,0,0,2.64,5.1,74.11,74.11,0,0,1,6.14,6.14,8,8,0,0,0,5.1,2.64l22.58,2.51a91.32,91.32,0,0,1,6.23,15l-14.19,17.74A8,8,0,0,0,199.87,123.66Z"
+                  ></path>
+                </svg>
+              </div>
+            </button>
+            <div
+              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDHj4abqQzTxiHkIcraAqu4r8o8W1ce7HmTmqk9rLj8j0BgkEnr-_eQD7rnAIviqQ-UErYrz3LS_IvDCPfgsoTdebchkp9r__H5dCqdS1PautMXaTn9ST2JVHQhuaFCousiLXMl2J4uwz87vBoC3mAC44dBYbGTt3LNm0umlXsRZ2DNTNX1sqpSIacM7DL9FIhAf2gpaxeCT6Bu-DNjHUn-DeQ35JvBx4QfJdOIERwtust5UqW_C938JTb0mQNyJSm4AoThPir947KF");'
+            ></div>
+          </div>
+        </header>
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div class="@container">
+              <div class="@[480px]:px-4 @[480px]:py-3">
+                <div
+                  class="w-full bg-center bg-no-repeat bg-cover flex flex-col justify-end overflow-hidden bg-slate-50 @[480px]:rounded-xl min-h-[218px]"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA02Ghr8qKehXDphiJvJ5XrfnUPcVR5xe52F4T-0Wz-6qKkQC4VEZwceJSucAnNTKZbFic2Ddx0aDse_f62UO3o8_L7Runc0aIVOmNqf2fjSySCbeT0CCJKmE4GAloJS4UtnRNKN7vlja8D5l1Hud20BGnoPS5zfCCfLSC1U8EA0uVx6Uun4rbac9evAjOaKHatKYabxYEQ_nugK7FUvarS5eYKOzOxCRgtIviY71tH0-I6W7xiMRZ0r57wfBA57hfVTkeR8DYqG0rK");'
+                ></div>
+              </div>
+            </div>
+            <h2 class="text-[#0d171b] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">Welcome back, Lily!</h2>
+            <div class="flex flex-wrap gap-3 px-4 py-3">
+              <div class="flex min-w-[111px] flex-1 basis-[fit-content] flex-col gap-2 rounded-lg border border-[#cfdfe7] p-3 items-center text-center">
+                <p class="text-[#0d171b] tracking-light text-2xl font-bold leading-tight" id="main-points">0</p>
+                <div class="flex items-center gap-2"><p class="text-[#4c809a] text-sm font-normal leading-normal">Points</p></div>
+              </div>
+              <div class="flex min-w-[111px] flex-1 basis-[fit-content] flex-col gap-2 rounded-lg border border-[#cfdfe7] p-3 items-center text-center">
+                <p class="text-[#0d171b] tracking-light text-2xl font-bold leading-tight" id="main-level">1</p>
+                <div class="flex items-center gap-2"><p class="text-[#4c809a] text-sm font-normal leading-normal">Level</p></div>
+              </div>
+            </div>
+            <h2 class="text-[#0d171b] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Level Details</h2>
+            <div class="flex flex-col gap-3 p-4">
+              <div class="flex gap-6 justify-between"><p class="text-[#0d171b] text-base font-medium leading-normal">Level 5 Progress</p></div>
+              <div class="rounded bg-[#cfdfe7]"><div class="h-2 rounded bg-[#13a3eb]" style="width: 60%;"></div></div>
+              <p class="text-[#4c809a] text-sm font-normal leading-normal">60%</p>
+            </div>
+            <div class="flex justify-center">
+              <div class="flex flex-1 gap-3 max-w-[480px] flex-col items-stretch px-4 py-3">
+                <button id="start-game-btn" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#13a3eb] text-slate-50 text-sm font-bold leading-normal tracking-[0.015em] w-full">
+                  <span class="truncate">Start Game</span>
+                </button>
+                <button id="reset-game-btn" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#e7eff3] text-[#0d171b] text-sm font-bold leading-normal tracking-[0.015em] w-full">
+                  <span class="truncate">Reset Game</span>
+                </button>
+                <button id="play-sudoku-btn" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#e7eff3] text-[#0d171b] text-sm font-bold leading-normal tracking-[0.015em] w-full">
+                  <span class="truncate">Play Sudoku</span>
+                </button>
+              </div>
+            </div>
 
-  <div id="leaderboard-section-container">
-    <!-- leaderboard_section.html will be loaded here -->
-  </div>
+            <!-- GAME SECTION (hidden by default) -->
+            <div id="game-section" style="display:none;">
+              <h2 class="text-xl font-bold text-center py-2">Matematik Oyunu</h2>
+              <div class="flex flex-col items-center">
+                <p id="game-level-label">Seviye: <span id="game-level">1</span></p>
+                <p id="game-points-label">Puan: <span id="game-points">0</span></p>
+                <p id="question-text" class="font-bold text-lg py-2"></p>
+                <input type="number" id="answer-input" class="border rounded px-2 py-1 text-center" placeholder="Cevabını yaz">
+                <button onclick="submitAnswer()" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded">Cevapla</button>
+                <p id="feedback" class="py-2"></p>
+                <p id="combo-timer" style="display:none; font-weight:bold; color:red; font-size:18px;"></p>
+                <button onclick="backToMain()" class="mt-2 bg-gray-300 text-black px-4 py-2 rounded">Ana Menüye Dön</button>
+              </div>
+            </div>
 
-  <div id="sudoku-section-container">
-    <!-- sudoku_section.html will be loaded here -->
-  </div>
+            <!-- SUDOKU SECTION (hidden by default) -->
+            <div id="sudoku-section" style="display:none;">
+              <h2 class="text-xl font-bold text-center py-2">Mini Sudoku</h2>
+              <p class="text-center">Aşağıdaki Sudoku'yu çöz ve "Kontrol Et"e bas!</p>
+              <table id="sudoku-table" class="mx-auto my-2 border-collapse">
+                <tbody>
+                  <!-- 4x4 sudoku grid, all inputs type="number" min="1" max="4" -->
+                  <tr>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s00"></td>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s01"></td>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s02"></td>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s03"></td>
+                  </tr>
+                  <tr>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s10"></td>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s11"></td>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s12"></td>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s13"></td>
+                  </tr>
+                  <tr>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s20"></td>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s21"></td>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s22"></td>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s23"></td>
+                  </tr>
+                  <tr>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s30"></td>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s31"></td>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s32"></td>
+                    <td><input type="number" min="1" max="4" maxlength="1" size="1" id="s33"></td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="flex gap-2 justify-center">
+                <button onclick="checkSudoku()" class="bg-blue-500 text-white px-4 py-2 rounded">Kontrol Et</button>
+                <button onclick="generateAndShowSudoku()" class="bg-green-500 text-white px-4 py-2 rounded">Yeni Sudoku</button>
+                <button onclick="backToMain()" class="bg-gray-300 text-black px-4 py-2 rounded">Ana Menüye Dön</button>
+              </div>
+              <p id="sudoku-feedback" class="text-center py-2"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  <!-- Global Elements -->
-  <!-- REMOVE the old confetti div: <div id="confetti"></div> -->
-  <!-- Add a container for p5.js canvas if you want to control its position explicitly -->
-  <div id="p5-canvas-container"></div>
+    <!-- Audio elements -->
+    <audio id="correct-sound" src="sounds/correct.mp3"></audio>
+    <audio id="incorrect-sound" src="sounds/incorrect.mp3"></audio>
+    <audio id="levelup-sound" src="sounds/level-up.mp3"></audio>
+    <audio id="timer-sound" src="sounds/timer.mpeg"></audio>
 
+    <!-- Confetti canvas container -->
+    <div id="p5-canvas-container"></div>
 
-  <!-- Add audio elements -->
-  <audio id="correct-sound" src="sounds/correct.mp3"></audio>
-  <audio id="incorrect-sound" src="sounds/incorrect.mp3"></audio>
-
-  <script src="js/game.js"></script>
-  <!-- Add your p5.js sketch file AFTER game.js if it depends on game.js variables,
-       or if game.js needs to control the p5 sketch. For a self-contained confetti,
-       the order might not strictly matter, but it's good practice.
-       However, we'll control the p5 sketch from game.js, so game.js first is better. -->
-  <script src="js/confetti_sketch.js"></script>
-</body>
+    <!-- Scripts -->
+    <script src="js/game.js"></script>
+    <script src="js/confetti_sketch.js"></script>
+    <script>
+      // Example: Button wiring for showing/hiding sections
+      document.getElementById("start-game-btn").onclick = function() {
+        document.getElementById("game-section").style.display = "block";
+        document.getElementById("sudoku-section").style.display = "none";
+        // Hide main content if needed
+      };
+      document.getElementById("reset-game-btn").onclick = function() {
+        if (typeof resetGame === "function") resetGame();
+      };
+      document.getElementById("play-sudoku-btn").onclick = function() {
+        document.getElementById("game-section").style.display = "none";
+        document.getElementById("sudoku-section").style.display = "block";
+        if (typeof generateAndShowSudoku === "function") generateAndShowSudoku();
+      };
+      function backToMain() {
+        document.getElementById("game-section").style.display = "none";
+        document.getElementById("sudoku-section").style.display = "none";
+        // Show main content if you hide it
+      }
+    </script>
+  </body>
 </html>
