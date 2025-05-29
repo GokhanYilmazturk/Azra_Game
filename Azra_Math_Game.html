@@ -2,10 +2,6 @@
 <html lang="tr">
 
 <head>
-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
-  <link rel="stylesheet" as="style" onload="this.rel='stylesheet'"
-    href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Spline+Sans%3Awght%40400%3B500%3B700" />
-
   <title>Matematik Oyunu</title>
   <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -13,11 +9,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
   <!-- Let's also add p5.sound.min.js I'm planning to use p5.js for sound later -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/addons/p5.sound.min.js"></script>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
-  <div class="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden"
-    style='font-family: "Spline Sans", "Noto Sans", sans-serif;'>
+  <div class="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden">
     <div class="layout-container flex h-full grow flex-col">
       <header
         class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7eff3] px-10 py-3">
@@ -44,9 +40,7 @@
               </svg>
             </div>
           </button>
-          <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
-            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDHj4abqQzTxiHkIcraAqu4r8o8W1ce7HmTmqk9rLj8j0BgkEnr-_eQD7rnAIviqQ-UErYrz3LS_IvDCPfgsoTdebchkp9r__H5dCqdS1PautMXaTn9ST2JVHQhuaFCousiLXMl2J4uwz87vBoC3mAC44dBYbGTt3LNm0umlXsRZ2DNTNX1sqpSIacM7DL9FIhAf2gpaxeCT6Bu-DNjHUn-DeQ35JvBx4QfJdOIERwtust5UqW_C938JTb0mQNyJSm4AoThPir947KF");'>
-          </div>
+          <div class="profile-image bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"></div>
         </div>
       </header>
       <div class="px-40 flex flex-1 justify-center py-5">
