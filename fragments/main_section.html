@@ -13,7 +13,7 @@
     <div
       class="flex min-w-[111px] flex-1 basis-[fit-content] flex-col gap-2 rounded-lg border border-[#cfdfe7] p-3 items-center text-center">
       <p class="text-[#0d171b] tracking-light text-2xl font-bold leading-tight">
-        <input type="text" id="points" value="0" disabled>
+        <input type="text" id="points" value="0" disabled class="text-center">
       </p>
       <div class="flex items-center gap-2">
         <p class="text-[#4c809a] text-sm font-normal leading-normal">Puan</p>
@@ -22,7 +22,7 @@
     <div
       class="flex min-w-[111px] flex-1 basis-[fit-content] flex-col gap-2 rounded-lg border border-[#cfdfe7] p-3 items-center text-center">
       <p class="text-[#0d171b] tracking-light text-2xl font-bold leading-tight">
-        <input type="text" id="level" value="Grup-1" disabled>
+        <input type="text" id="level" value="Grup-1" disabled class="text-center">
       </p>
       <div class="flex items-center gap-2">
         <p class="text-[#4c809a] text-sm font-normal leading-normal">Seviye</p>
@@ -36,9 +36,9 @@
       <p class="text-[#0d171b] text-base font-medium leading-normal">Level 5 Progress</p>
     </div>
     <div class="rounded bg-[#cfdfe7]">
-      <div class="h-2 rounded bg-[#13a3eb]" style="width: 60%;"></div>
+      <div id="progress-bar" class="h-2 rounded bg-[#13a3eb]" style="width: 0%;"></div>
     </div>
-    <p class="text-[#4c809a] text-sm font-normal leading-normal">60%</p>
+    <p id="progress-text" class="text-[#4c809a] text-sm font-normal leading-normal">0%</p>
   </div>
   <div class="flex justify-center">
     <div class="flex flex-1 gap-3 max-w-[480px] flex-col items-stretch px-4 py-3">

@@ -10,8 +10,8 @@ let comboTimeLeft = 10;
 let currentSudokuSolution = [];
 
 // --- DOM Element References (to be assigned after fragments load) ---
-let mainSectionContainer, gameSectionContainer, leaderboardSectionContainer, sudokuSectionContainer;
-let pointsDisplay, levelDisplay, gamePointsDisplay, gameLevelDisplay, leaderboardPointsDisplay, leaderboardLevelDisplay;
+let mainSectionContainer, gameSectionContainer, levelSectionContainer, sudokuSectionContainer;
+let pointsDisplay, levelDisplay, gamePointsDisplay, gameLevelDisplay, levelPointsDisplay, levelLevelDisplay;
 let questionTextElem, answerInputElem, feedbackElem, comboTimerElem;
 let levelChallengesList, sudokuFeedbackElem;
 
@@ -35,7 +35,7 @@ function initializeGame() {
     // Assign DOM element references
     mainSectionContainer = document.getElementById("main-section-container");
     gameSectionContainer = document.getElementById("game-section-container");
-    leaderboardSectionContainer = document.getElementById("leaderboard-section-container");
+    levelSectionContainer = document.getElementById("level-section-container");
     sudokuSectionContainer = document.getElementById("sudoku-section-container");
 
     // Elements from main_section.html
@@ -50,9 +50,9 @@ function initializeGame() {
     feedbackElem = document.getElementById("feedback");
     comboTimerElem = document.getElementById("combo-timer");
 
-    // Elements from leaderboard_section.html
-    leaderboardPointsDisplay = document.getElementById("leaderboard-points");
-    leaderboardLevelDisplay = document.getElementById("leaderboard-level");
+    // Elements from level_section.html
+    levelPointsDisplay = document.getElementById("level-points");
+    levelLevelDisplay = document.getElementById("level-level");
     levelChallengesList = document.getElementById("level-challenges");
 
     // Elements from sudoku_section.html
@@ -63,7 +63,7 @@ function initializeGame() {
     if (pointsDisplay) pointsDisplay.value = points; // It's an input field
     if (levelDisplay) levelDisplay.value = getCurrentLevel(); // It's an input field
     
-    updateLeaderboard(); // This will populate leaderboard data
+    updatelevel(); // This will populate level data
     updateDisplay(); // Sets initial background etc.
 
     // Add "Enter" key functionality for the answer input (if it exists)
@@ -77,7 +77,7 @@ function initializeGame() {
 
     // Set initial visibility (CSS already handles some, but JS can override/confirm)
     mainSectionContainer.style.display = "block";
-    leaderboardSectionContainer.style.display = "block";
+    levelSectionContainer.style.display = "none";
     gameSectionContainer.style.display = "none";
     sudokuSectionContainer.style.display = "none";
 }
@@ -91,7 +91,7 @@ function getCurrentLevel() {
 function startGame() {
   mainSectionContainer.style.display = "none";
   gameSectionContainer.style.display = "block";
-  leaderboardSectionContainer.style.display = "none";
+  levelSectionContainer.style.display = "none";
   sudokuSectionContainer.style.display = "none";
   nextQuestion();
 }
@@ -233,9 +233,9 @@ function updateDisplay() {
   if (gamePointsDisplay) gamePointsDisplay.textContent = points;
   if (gameLevelDisplay) gameLevelDisplay.textContent = getCurrentLevel();
 
-  // Update leaderboard displays (these are spans)
-  if (leaderboardPointsDisplay) leaderboardPointsDisplay.textContent = points;
-  if (leaderboardLevelDisplay) leaderboardLevelDisplay.textContent = getCurrentLevel();
+  // Update level displays (these are spans)
+  if (levelPointsDisplay) levelPointsDisplay.textContent = points;
+  if (levelLevelDisplay) levelLevelDisplay.textContent = getCurrentLevel();
 
 
   const levelBackgrounds = {
@@ -256,6 +256,14 @@ function updateDisplay() {
   } else {
     document.body.classList.remove("level-4");
   }
+
+  // Progress bar calculation
+  const maxPoints = 120;
+  const percent = Math.min(100, Math.round((points / maxPoints) * 100));
+  const progressBar = document.getElementById("progress-bar");
+  const progressText = document.getElementById("progress-text");
+  if (progressBar) progressBar.style.width = percent + "%";
+  if (progressText) progressText.textContent = percent + "%";
 }
 
 function launchConfetti() {
@@ -264,7 +272,7 @@ function launchConfetti() {
   }
 }
 
-function updateLeaderboard() {
+function updatelevel() {
   if (!levelChallengesList) return; // Guard clause
 
   const challenges = {
@@ -275,8 +283,8 @@ function updateLeaderboard() {
     "Grup-5": "Toplama ve çarpma işlemleri (0-15 arası sayılar, çarpma için 0-10)."
   };
 
-  if(leaderboardPointsDisplay) leaderboardPointsDisplay.textContent = points;
-  if(leaderboardLevelDisplay) leaderboardLevelDisplay.textContent = getCurrentLevel();
+  if(levelPointsDisplay) levelPointsDisplay.textContent = points;
+  if(levelLevelDisplay) levelLevelDisplay.textContent = getCurrentLevel();
 
   levelChallengesList.innerHTML = "";
   for (const [level, description] of Object.entries(challenges)) {
@@ -293,8 +301,8 @@ function resetGame() {
   
   if (pointsDisplay) pointsDisplay.value = points;
   if (levelDisplay) levelDisplay.value = getCurrentLevel();
-  if (leaderboardPointsDisplay) leaderboardPointsDisplay.textContent = points;
-  if (leaderboardLevelDisplay) leaderboardLevelDisplay.textContent = getCurrentLevel();
+  if (levelPointsDisplay) levelPointsDisplay.textContent = points;
+  if (levelLevelDisplay) levelLevelDisplay.textContent = getCurrentLevel();
   
   updateDisplay(); // To reset background etc.
   alert("Oyun sıfırlandı! Yeni bir başlangıç yapabilirsin.");
@@ -416,7 +424,7 @@ function generateSudoku4x4() {
 function backToMain() {
   mainSectionContainer.style.display = "block";
   gameSectionContainer.style.display = "none";
-  leaderboardSectionContainer.style.display = "block";
+  levelSectionContainer.style.display = "block";
   sudokuSectionContainer.style.display = "none";
   updateDisplay(); // Refresh main screen info
 }
@@ -448,7 +456,7 @@ function generateAndShowSudoku() {
 function showSudoku() {
   mainSectionContainer.style.display = "none";
   gameSectionContainer.style.display = "none";
-  leaderboardSectionContainer.style.display = "none";
+  levelSectionContainer.style.display = "none";
   sudokuSectionContainer.style.display = "block";
   generateAndShowSudoku();
 }
@@ -486,7 +494,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const fragmentsToLoad = [
         { path: "fragments/main_section.html", id: "main-section-container" },
         { path: "fragments/game_section.html", id: "game-section-container" },
-        { path: "fragments/leaderboard_section.html", id: "leaderboard-section-container" },
+        { path: "fragments/level_section.html", id: "level-section-container" },
         { path: "fragments/sudoku_section.html", id: "sudoku-section-container" }
     ];
 
@@ -498,9 +506,37 @@ document.addEventListener("DOMContentLoaded", async () => {
         await Promise.all(loadPromises);
         // Once all fragments are loaded, initialize the game and UI elements
         initializeGame();
+
+        // --- Add navigation logic for header buttons ---
+        const homeBtn = document.getElementById("home-btn");
+        const levelBtn = document.getElementById("level-btn");
+
+        if (homeBtn) {
+            homeBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                // Show main section, hide others
+                mainSectionContainer.style.display = "block";
+                gameSectionContainer.style.display = "none";
+                levelSectionContainer.style.display = "none";
+                sudokuSectionContainer.style.display = "none";
+                updateDisplay();
+            });
+        }
+
+        if (levelBtn) {
+            levelBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                // Show level section, hide others
+                mainSectionContainer.style.display = "none";
+                gameSectionContainer.style.display = "none";
+                levelSectionContainer.style.display = "block";
+                sudokuSectionContainer.style.display = "none";
+                updatelevel();
+            });
+        }
+
     } catch (error) {
         console.error("Error loading one or more fragments:", error);
-        // You might want to display a more user-friendly error message on the page
         document.body.innerHTML = "<p>Üzgünüz, oyun yüklenirken bir sorun oluştu. Lütfen sayfayı yenileyin veya daha sonra tekrar deneyin.</p>";
     }
 });
