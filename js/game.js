@@ -8,6 +8,7 @@ let isComboQuestion = false;
 let comboTimer = null;
 let comboTimeLeft = 10;
 let currentSudokuSolution = [];
+let timerAudio = null;
 
 // --- DOM Element References (to be assigned after fragments load) ---
 let mainSectionContainer, gameSectionContainer, levelSectionContainer, sudokuSectionContainer;
@@ -66,6 +67,7 @@ function initializeGame() {
     
     updatelevel(); // This will populate level data
     updateDisplay(); // Sets initial background etc.
+    playMainScreenMusic(); // Play music on main screen
 
     // Add "Enter" key functionality for the answer input (if it exists)
     if (answerInputElem) {
@@ -97,6 +99,7 @@ function startGame() {
   sudokuSectionContainer.style.display = "none";
   leaderboardSectionContainer.style.display = "none";
   nextQuestion();
+  playMainScreenMusic();
 }
 
 function nextQuestion() {
@@ -175,22 +178,27 @@ function submitAnswer() {
   const parsedAnswer = parseInt(userAnswer);
 
   if (isComboQuestion) {
-    clearInterval(comboTimer);
-    if(comboTimerElem) comboTimerElem.style.display = "none";
-    isComboQuestion = false;
-    if (parsedAnswer === currentAnswer) {
-      points += 5;
-      if(feedbackElem) feedbackElem.textContent = "🔥 KOMBO! 5 puan kazandın!";
-      playRandomSound("correct");
-    } else {
-      if(feedbackElem) feedbackElem.textContent = "⏰ Komboda yanlış cevap!";
-      playRandomSound("incorrect");
-    }
-    correctStreak = 0;
-    localStorage.setItem('points', points);
-    updateDisplay();
-    setTimeout(nextQuestion, 1500);
-    return;
+      clearInterval(comboTimer);
+      if (comboTimerElem) comboTimerElem.style.display = "none";
+      isComboQuestion = false;
+      // Stop timer sound
+      if (timerAudio) {
+        timerAudio.pause();
+        timerAudio.currentTime = 0;
+      }
+      if (parsedAnswer === currentAnswer) {
+        points += 5;
+        if(feedbackElem) feedbackElem.textContent = "🔥 KOMBO! 5 puan kazandın!";
+        playRandomSound("correct");
+      } else {
+        if(feedbackElem) feedbackElem.textContent = "⏰ Komboda yanlış cevap!";
+        playRandomSound("incorrect");
+      }
+      correctStreak = 0;
+      localStorage.setItem('points', points);
+      updateDisplay();
+      setTimeout(nextQuestion, 1500);
+      return;
   }
 
   if (parsedAnswer === currentAnswer) {
@@ -331,8 +339,13 @@ function askComboQuestion() {
   document.getElementById("feedback").textContent = "KOMBO SORUSU! Doğru cevaba 5 puan!";
 
   // Play timer sound
-  const timerAudio = new Audio("sounds/timer.mpeg");
-  timerAudio.play();
+  if (timerAudio) {
+    timerAudio.pause();
+    timerAudio.currentTime = 0;
+  }
+  timerAudio = new Audio("sounds/timer.mpeg");
+  timerAudio.loop = true;
+  timerAudio.play().catch(() => {});
 
   let comboLevelIndex = Math.min(levelIndex + 1, levels.length - 1);
   let comboLevel = levels[comboLevelIndex];
@@ -405,9 +418,14 @@ function askComboQuestion() {
     if(comboTimerElem) comboTimerElem.textContent = `KOMBO SORUSU! Süre: ${comboTimeLeft} sn`;
     if (comboTimeLeft <= 0) {
       clearInterval(comboTimer);
-      if(comboTimerElem) comboTimerElem.style.display = "none";
+      if (comboTimerElem) comboTimerElem.style.display = "none";
       isComboQuestion = false;
-      if(feedbackElem) feedbackElem.textContent = "⏰ Süre doldu! Komboyu kaçırdın.";
+      // Stop timer sound
+      if (timerAudio) {
+        timerAudio.pause();
+        timerAudio.currentTime = 0;
+      }
+      if (feedbackElem) feedbackElem.textContent = "⏰ Süre doldu! Komboyu kaçırdın.";
       correctStreak = 0;
       setTimeout(nextQuestion, 1500);
     }
@@ -505,6 +523,31 @@ function checkSudoku() {
   }
 }
 
+// --- Background Music Functions ---
+const backgroundMusic = document.getElementById("backgroundMusic");
+
+// Play music when on main screen (Ana Sayfa)
+function playMainScreenMusic() {
+    if (backgroundMusic) {
+        backgroundMusic.loop = true;
+        backgroundMusic.volume = 0.5;
+        backgroundMusic.play().catch(() => {
+            // Most browsers require user interaction to start audio
+            // So you can try again on the first user click
+            document.body.addEventListener('click', () => {
+                backgroundMusic.play();
+            }, { once: true });
+        });
+    }
+}
+
+// Pause music when leaving main screen
+function pauseMainScreenMusic() {
+    if (backgroundMusic) backgroundMusic.pause();
+}
+
+// Call this in navigation logic:
+
 // --- Event Listener to Load Fragments and Initialize ---
 document.addEventListener("DOMContentLoaded", async () => {
     // Define fragment paths and their container IDs
@@ -539,6 +582,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 sudokuSectionContainer.style.display = "none";
                 leaderboardSectionContainer.style.display = "none";
                 updateDisplay();
+                playMainScreenMusic(); // Play music on main screen
             });
         }
 
@@ -552,6 +596,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 sudokuSectionContainer.style.display = "none";
                 leaderboardSectionContainer.style.display = "none";
                 updatelevel();
+                pauseMainScreenMusic(); // Pause music when navigating away from main screen
             });
         }
 
