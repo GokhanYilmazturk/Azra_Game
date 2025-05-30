@@ -37,6 +37,7 @@ function initializeGame() {
     gameSectionContainer = document.getElementById("game-section-container");
     levelSectionContainer = document.getElementById("level-section-container");
     sudokuSectionContainer = document.getElementById("sudoku-section-container");
+    leaderboardSectionContainer = document.getElementById("leaderboard-section-container");
 
     // Elements from main_section.html
     pointsDisplay = document.getElementById("points");
@@ -80,6 +81,7 @@ function initializeGame() {
     levelSectionContainer.style.display = "none";
     gameSectionContainer.style.display = "none";
     sudokuSectionContainer.style.display = "none";
+    leaderboardSectionContainer.style.display = "none";
 }
 
 // --- Your Existing Game Logic Functions (No changes needed in most, just ensure DOM elements are accessed via variables set in initializeGame) ---
@@ -93,6 +95,7 @@ function startGame() {
   gameSectionContainer.style.display = "block";
   levelSectionContainer.style.display = "none";
   sudokuSectionContainer.style.display = "none";
+  leaderboardSectionContainer.style.display = "none";
   nextQuestion();
 }
 
@@ -250,6 +253,11 @@ function updateDisplay() {
   // Path is relative to the main HTML file
   document.body.style.backgroundImage = `url('${levelBackgrounds[currentLevel] || 'images/start-screen.png'}')`;
 
+  // Update game-section-hero background image
+  const gameSectionHero = document.querySelector("#game-section .game-section-hero");
+  if (gameSectionHero) {
+    gameSectionHero.style.backgroundImage = `url('${levelBackgrounds[currentLevel] || 'images/start-screen.png'}')`;
+  }
 
   if (currentLevel === "Grup-4") {
     document.body.classList.add("level-4");
@@ -433,6 +441,7 @@ function backToMain() {
   gameSectionContainer.style.display = "none";
   levelSectionContainer.style.display = "block";
   sudokuSectionContainer.style.display = "none";
+  leaderboardSectionContainer.style.display = "none";
   updateDisplay(); // Refresh main screen info
 }
 
@@ -465,6 +474,7 @@ function showSudoku() {
   gameSectionContainer.style.display = "none";
   levelSectionContainer.style.display = "none";
   sudokuSectionContainer.style.display = "block";
+  leaderboardSectionContainer.style.display = "none";
   generateAndShowSudoku();
 }
 
@@ -502,7 +512,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         { path: "fragments/main_section.html", id: "main-section-container" },
         { path: "fragments/game_section.html", id: "game-section-container" },
         { path: "fragments/level_section.html", id: "level-section-container" },
-        { path: "fragments/sudoku_section.html", id: "sudoku-section-container" }
+        { path: "fragments/sudoku_section.html", id: "sudoku-section-container" },
+        { path: "fragments/leaderboard_section.html", id: "leaderboard-section-container" }
     ];
 
     // Create an array of promises for loading each fragment
@@ -526,6 +537,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 gameSectionContainer.style.display = "none";
                 levelSectionContainer.style.display = "none";
                 sudokuSectionContainer.style.display = "none";
+                leaderboardSectionContainer.style.display = "none";
                 updateDisplay();
             });
         }
@@ -538,17 +550,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                 gameSectionContainer.style.display = "none";
                 levelSectionContainer.style.display = "block";
                 sudokuSectionContainer.style.display = "none";
+                leaderboardSectionContainer.style.display = "none";
                 updatelevel();
             });
         }
 
-        // Get references to all section containers
-        const mainSectionContainer = document.getElementById("main-section-container");
-        const gameSectionContainer = document.getElementById("game-section-container");
-        const levelSectionContainer = document.getElementById("level-section-container");
-        const sudokuSectionContainer = document.getElementById("sudoku-section-container");
-        const leaderboardSectionContainer = document.getElementById("leaderboard-section-container");
-
+    
         // Leaderboard button logic
         const leaderboardBtn = document.getElementById("leaderboard-btn");
         if (leaderboardBtn) {

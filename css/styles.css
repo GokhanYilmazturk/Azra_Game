@@ -33,6 +33,21 @@ body {
   background-color: #f8fafc;
 }
 
+.game-section-hero {
+  width: 100%;
+  min-height: 218px;
+  background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDvnCMtB-R43iV7Rwf1RHyQBgIPmsQyvkLWL7aVBi6fmborDf57xpO3FZrdt6cKt8KIcb6kh7G7FhL3qEwP0nxjxSW2rVow_IR0YCRc-r58E12d95wmEPfHOGxa7oK43zvX76RoILzJAeJ7HKhKaAMKQb07x1sWhNFEqIKa_81Wi9YuaQqX7kytgFqccOeN1_c-8y8JEEgcuD3N1hHIKu9mcXTmzj21f1wSX4gBD8S_HYYOxXv5b2Jer2QU_rqYszhJ8Rvs_EpR3qkS");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  overflow: hidden;
+  background-color: #f8fafc;
+}
+
 .main-section-title {
   color: #0d171b;
   font-size: 28px;
@@ -131,26 +146,80 @@ button:active {
   max-width: 700px;
   width: 100%;
 }
-#game-section h2 {
+
+.game-section-hero {
+  width: 100%;
+  min-height: 218px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  overflow: hidden;
+  background-color: #f8fafc;
+}
+
+.game-section-title {
   color: #0d171b;
   font-size: 28px;
   font-weight: bold;
-  margin-bottom: 16px;
-}
-#game-section p {
-  margin: 8px 0;
-}
-#game-section input[type="number"] {
-  width: 100%;
-  max-width: 200px;
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #cfdfe7;
-  font-size: 18px;
+  line-height: 1.2;
   text-align: center;
+  padding: 20px 0 12px 0;
+  letter-spacing: -0.015em;
+}
+
+.game-section-input-row {
+  display: flex;
+  max-width: 480px;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 16px;
+  padding: 12px 16px;
   margin: 0 auto;
 }
-#combo-timer {
+
+.game-section-label {
+  display: flex;
+  flex-direction: column;
+  min-width: 160px;
+  flex: 1;
+}
+
+.game-section-input {
+  width: 100%;
+  min-width: 0;
+  border-radius: 12px;
+  border: 1px solid #cfdfe7;
+  background: #f8fafc;
+  color: #0d171b;
+  padding: 15px;
+  font-size: 16px;
+  height: 56px;
+  font-weight: normal;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.game-section-input:focus {
+  border-color: #13a3eb;
+}
+
+.game-section-btn-row {
+  display: flex;
+  justify-content: center;
+  padding: 12px 16px;
+}
+
+.game-section-feedback {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #0d171b;
+}
+
+.game-section-combo-timer {
   font-weight: bold;
   color: red;
   font-size: 18px;

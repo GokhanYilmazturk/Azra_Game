@@ -1,31 +1,32 @@
-<div id="game-section" class="px-40 flex flex-1 justify-center py-5">
-  <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
-    <div class="@container">
-      <div class="@[480px]:px-4 @[480px]:py-3">
-        <div
-          class="w-full bg-center bg-no-repeat bg-cover flex flex-col justify-end overflow-hidden bg-slate-50 @[480px]:rounded-xl min-h-[218px]"
-          style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDvnCMtB-R43iV7Rwf1RHyQBgIPmsQyvkLWL7aVBi6fmborDf57xpO3FZrdt6cKt8KIcb6kh7G7FhL3qEwP0nxjxSW2rVow_IR0YCRc-r58E12d95wmEPfHOGxa7oK43zvX76RoILzJAeJ7HKhKaAMKQb07x1sWhNFEqIKa_81Wi9YuaQqX7kytgFqccOeN1_c-8y8JEEgcuD3N1hHIKu9mcXTmzj21f1wSX4gBD8S_HYYOxXv5b2Jer2QU_rqYszhJ8Rvs_EpR3qkS");'>
-        </div>
+<div id="game-section">
+  <div class="layout-content-container">
+    <div>
+      <div>
+        <div class="game-section-hero"></div>
         <p><strong>Puanın:</strong> <span id="game-points">0</span></p>
         <p><strong>Seviyen:</strong> <span id="game-level">Grup-1</span></p>
       </div>
     </div>
-    <h2 class="text-[#0d171b] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">
-      <p id="question-text">Soru burada gözükecek</p>
+    <h2 class="game-section-title">
+      <span id="question-text">Soru burada gözükecek</span>
     </h2>
-    <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-      <label class="flex flex-col min-w-40 flex-1">
-        <input placeholder="Cevabını yaz"
-          class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0d171b] focus:outline-0 focus:ring-0 border border-[#cfdfe7] bg-slate-50 focus:border-[#cfdfe7] h-14 placeholder:text-[#4c809a] p-[15px] text-base font-normal leading-normal"
-          type="number" id="answer-input" placeholder="Cevabını yaz" oninput="validateInput(this)"/>
+    <div class="game-section-input-row">
+      <label class="game-section-label">
+        <input
+          class="game-section-input"
+          type="number"
+          id="answer-input"
+          placeholder="Cevabını yaz"
+          oninput="validateInput(this)"
+        />
       </label>
     </div>
-    <div class="flex px-4 py-3 justify-center">
-      <button onclick="submitAnswer()"
-        class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#13a3eb] text-slate-50 text-sm font-bold leading-normal tracking-[0.015em]">
+    <div class="game-section-btn-row">
+      <button onclick="submitAnswer()" class="btn btn-primary">
         <span class="truncate">Cevapla</span>
       </button>
     </div>
-    <p id="feedback"></p>
-    <p id="combo-timer" style="display:none; font-weight:bold; color:red; font-size:18px;"></p>
+    <p id="feedback" class="game-section-feedback"></p>
+    <p id="combo-timer" class="game-section-combo-timer" style="display:none;"></p>
   </div>
+</div>
