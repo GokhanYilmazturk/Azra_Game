@@ -283,14 +283,21 @@ function updatelevel() {
     "Grup-5": "Toplama ve çarpma işlemleri (0-15 arası sayılar, çarpma için 0-10)."
   };
 
-  if(levelPointsDisplay) levelPointsDisplay.textContent = points;
-  if(levelLevelDisplay) levelLevelDisplay.textContent = getCurrentLevel();
+  if (levelPointsDisplay) levelPointsDisplay.textContent = points;
+  if (levelLevelDisplay) levelLevelDisplay.textContent = getCurrentLevel();
 
   levelChallengesList.innerHTML = "";
   for (const [level, description] of Object.entries(challenges)) {
-    const li = document.createElement("li");
-    li.textContent = `${level}: ${description}`;
-    levelChallengesList.appendChild(li);
+    const h3 = document.createElement("h3");
+    h3.className = "level-section-heading";
+    h3.textContent = level;
+
+    const p = document.createElement("p");
+    p.className = "level-section-desc";
+    p.textContent = description;
+
+    levelChallengesList.appendChild(h3);
+    levelChallengesList.appendChild(p);
   }
 }
 
@@ -532,6 +539,33 @@ document.addEventListener("DOMContentLoaded", async () => {
                 levelSectionContainer.style.display = "block";
                 sudokuSectionContainer.style.display = "none";
                 updatelevel();
+            });
+        }
+
+        // Get references to all section containers
+        const mainSectionContainer = document.getElementById("main-section-container");
+        const gameSectionContainer = document.getElementById("game-section-container");
+        const levelSectionContainer = document.getElementById("level-section-container");
+        const sudokuSectionContainer = document.getElementById("sudoku-section-container");
+        const leaderboardSectionContainer = document.getElementById("leaderboard-section-container");
+
+        // Leaderboard button logic
+        const leaderboardBtn = document.getElementById("leaderboard-btn");
+        if (leaderboardBtn) {
+            leaderboardBtn.addEventListener("click", async (e) => {
+                e.preventDefault();
+                // Hide all other sections
+                mainSectionContainer.style.display = "none";
+                gameSectionContainer.style.display = "none";
+                levelSectionContainer.style.display = "none";
+                sudokuSectionContainer.style.display = "none";
+                // Load leaderboard fragment if not loaded yet
+                if (!leaderboardSectionContainer.innerHTML.trim()) {
+                    await loadFragment("fragments/leaderboard_section.html", "leaderboard-section-container");
+                }
+                leaderboardSectionContainer.style.display = "block";
+                // Optionally, update leaderboard data here
+                // updateLeaderboard();
             });
         }
 
