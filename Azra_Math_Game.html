@@ -35,9 +35,7 @@
           <button
             class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 bg-[#e7eff3] text-[#0d171b] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
             <div class="text-[#0d171b]" data-icon="Gear" data-size="20px" data-weight="regular">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
-                viewBox="0 0 256 256">
-              </svg>
+              <span> &#9881; </span>
             </div>
           </button>
           <div class="profile-image bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"></div>
@@ -80,6 +78,31 @@
   <audio id="correct-sound" src="sounds/correct.mp3"></audio>
   <audio id="incorrect-sound" src="sounds/incorrect.mp3"></audio>
   <audio id="backgroundMusic" src="sounds/main_screen_music.mp3" loop></audio>
+
+  <!-- Music & Sound Settings Modal -->
+<div id="settings-modal" class="modal-overlay" style="display:none;">
+  <div class="modal-content">
+    <h2>Ses Ayarları</h2>
+    <div class="modal-row">
+      <label for="music-volume">Müzik Ses Seviyesi:</label>
+      <input type="range" id="music-volume" min="0" max="1" step="0.01" value="0.5">
+      <span id="music-volume-value">50%</span>
+    </div>
+    <div class="modal-row">
+      <label>
+        <input type="checkbox" id="music-toggle" checked>
+        Müzik Açık/Kapalı
+      </label>
+    </div>
+    <div class="modal-row">
+      <label>
+        <input type="checkbox" id="sound-toggle" checked>
+        Efekt Sesleri Açık/Kapalı
+      </label>
+    </div>
+    <button id="close-settings" class="btn btn-secondary">Kapat</button>
+  </div>
+</div>
 
   <script src="js/game.js"></script>
   <!-- Add your p5.js sketch file AFTER game.js if it depends on game.js variables,

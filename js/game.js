@@ -148,6 +148,7 @@ function validateInput(input) {
 }
 
 function playRandomSound(type) {
+  if (localStorage.getItem("soundEnabled") === "false") return;
   const correctSounds = ["sounds/correct1.m4a", "sounds/correct2.m4a", "sounds/correct3.m4a",
                         "sounds/correct4.m4a", "sounds/correct5.m4a", "sounds/correct6.m4a"];
   const incorrectSounds = ["sounds/incorrect1.m4a", "sounds/incorrect2.m4a", "sounds/incorrect3.m4a"];
@@ -231,6 +232,7 @@ function submitAnswer() {
 }
 
 function playLevelUpSound() {
+  if (localStorage.getItem("soundEnabled") === "false") return;
   const levelUpSound = new Audio("sounds/level-up.mpeg");
   levelUpSound.play().catch(e => console.error("Error playing level up sound:", e));
 }
@@ -625,4 +627,61 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error("Error loading one or more fragments:", error);
         document.body.innerHTML = "<p>Üzgünüz, oyun yüklenirken bir sorun oluştu. Lütfen sayfayı yenileyin veya daha sonra tekrar deneyin.</p>";
     }
+});
+
+// --- Modal Logic ---
+document.addEventListener("DOMContentLoaded", () => {
+  // Modal elements
+  const settingsModal = document.getElementById("settings-modal");
+  const gearBtn = document.querySelector('button .text-[#0d171b], button [data-icon="Gear"]')?.closest("button");
+  const closeBtn = document.getElementById("close-settings");
+  const musicVolume = document.getElementById("music-volume");
+  const musicVolumeValue = document.getElementById("music-volume-value");
+  const musicToggle = document.getElementById("music-toggle");
+  const soundToggle = document.getElementById("sound-toggle");
+
+  // Show modal on gear click
+  if (gearBtn) {
+    gearBtn.addEventListener("click", () => {
+      settingsModal.style.display = "flex";
+      // Set current values
+      musicVolume.value = backgroundMusic.volume;
+      musicVolumeValue.textContent = Math.round(backgroundMusic.volume * 100) + "%";
+      musicToggle.checked = !backgroundMusic.paused;
+      soundToggle.checked = localStorage.getItem("soundEnabled") !== "false";
+    });
+  }
+
+  // Close modal
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      settingsModal.style.display = "none";
+    });
+  }
+
+  // Volume control
+  if (musicVolume) {
+    musicVolume.addEventListener("input", () => {
+      backgroundMusic.volume = musicVolume.value;
+      musicVolumeValue.textContent = Math.round(musicVolume.value * 100) + "%";
+    });
+  }
+
+  // Music on/off
+  if (musicToggle) {
+    musicToggle.addEventListener("change", () => {
+      if (musicToggle.checked) {
+        backgroundMusic.play();
+      } else {
+        backgroundMusic.pause();
+      }
+    });
+  }
+
+  // Sound effects on/off
+  if (soundToggle) {
+    soundToggle.addEventListener("change", () => {
+      localStorage.setItem("soundEnabled", soundToggle.checked ? "true" : "false");
+    });
+  }
 });

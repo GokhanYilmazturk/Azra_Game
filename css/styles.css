@@ -332,6 +332,42 @@ button:active {
   background-repeat: no-repeat;
 }
 
+/* Modal Overlay Styles */
+.modal-overlay {
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-content {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px 24px;
+  min-width: 320px;
+  max-width: 90vw;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.15);
+  text-align: left;
+}
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 18px;
+  font-size: 22px;
+  color: #0d171b;
+}
+.modal-row {
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+#close-settings {
+  margin-top: 10px;
+  width: 100%;
+}
+
 /* Responsive */
 @media (max-width: 800px) {
   #main-section, #game-section, #sudoku-section {
