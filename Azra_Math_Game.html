@@ -33,6 +33,7 @@
             <a id="leaderboard-btn" class="text-[#0d171b] text-sm font-medium leading-normal" href="#">Liderlik Tablosu</a>
           </div>
           <button
+            id="settings-btn"
             class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 bg-[#e7eff3] text-[#0d171b] gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
             <div class="text-[#0d171b]" data-icon="Gear" data-size="20px" data-weight="regular">
               <span> &#9881; </span>
@@ -104,12 +105,24 @@
   </div>
 </div>
 
+<!-- Level Up Overlay -->
+<div id="levelup-overlay" class="levelup-overlay" style="display:none;">
+  <div class="levelup-content">
+    <div class="levelup-stars">
+      <span class="star">&#11088;</span>
+      <span class="star">&#11088;</span>
+      <span class="star">&#11088;</span>
+    </div>
+    <div class="levelup-text">Süper Azra, yeni seviye!</div>
+    <div class="levelup-stars">
+      <span class="star">&#11088;</span>
+      <span class="star">&#11088;</span>
+      <span class="star">&#11088;</span>
+    </div>
+  </div>
+</div>
+
   <script src="js/game.js"></script>
-  <!-- Add your p5.js sketch file AFTER game.js if it depends on game.js variables,
-       or if game.js needs to control the p5 sketch. For a self-contained confetti,
-       the order might not strictly matter, but it's good practice.
-       However, we'll control the p5 sketch from game.js, so game.js first is better. -->
-  <script src="js/confetti_sketch.js"></script>
 </body>
 
 </html>

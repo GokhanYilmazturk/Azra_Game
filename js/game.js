@@ -1,7 +1,10 @@
 // Global variables (these were already global in your original script)
 let points = parseInt(localStorage.getItem('points')) || 0;
 let levelIndex = Math.floor(points / 20);
-const levels = ["Grup-1", "Grup-2", "Grup-3", "Grup-4", "Grup-5"];
+const levels = [
+  "Grup-1", "Grup-2", "Grup-3", "Grup-4", "Grup-5",
+  "Grup-6", "Grup-7", "Grup-8", "Grup-9", "Grup-10"
+];
 let currentAnswer = 0;
 let correctStreak = 0;
 let isComboQuestion = false;
@@ -128,9 +131,66 @@ function nextQuestion() {
       b = op === "+" ? Math.floor(Math.random() * 16) : Math.floor(Math.random() * 6);
       break;
     case "Grup-5":
-      op = Math.random() < 0.5 ? "+" : "*";
-      a = Math.floor(Math.random() * 16);
-      b = op === "+" ? Math.floor(Math.random() * 16) : Math.floor(Math.random() * 11);
+      // 15'e kadar toplama + 0-10 arası çıkartma + 0-5 arası çarpma
+      op = ["+", "-", "*"][Math.floor(Math.random() * 3)];
+      if (op === "+") {
+        a = Math.floor(Math.random() * 16);
+        b = Math.floor(Math.random() * 16);
+      } else if (op === "-") {
+        a = Math.floor(Math.random() * 16);
+        b = Math.floor(Math.random() * 11);
+        if (b > a) [a, b] = [b, a]; // avoid negative results
+      } else {
+        a = Math.floor(Math.random() * 16);
+        b = Math.floor(Math.random() * 6);
+      }
+      break;
+    case "Grup-6":
+      // 15'e kadar toplama + 0-10 arası çıkartma + 0-7 arası çarpma
+      op = ["+", "-", "*"][Math.floor(Math.random() * 3)];
+      if (op === "+") {
+        a = Math.floor(Math.random() * 16);
+        b = Math.floor(Math.random() * 16);
+      } else if (op === "-") {
+        a = Math.floor(Math.random() * 16);
+        b = Math.floor(Math.random() * 11);
+        if (b > a) [a, b] = [b, a];
+      } else {
+        a = Math.floor(Math.random() * 16);
+        b = Math.floor(Math.random() * 8);
+      }
+      break;
+    case "Grup-7":
+      // 15'e kadar toplama + 0-10 arası çıkartma + 0-10 arası çarpma
+      op = ["+", "-", "*"][Math.floor(Math.random() * 3)];
+      if (op === "+") {
+        a = Math.floor(Math.random() * 16);
+        b = Math.floor(Math.random() * 16);
+      } else if (op === "-") {
+        a = Math.floor(Math.random() * 16);
+        b = Math.floor(Math.random() * 11);
+        if (b > a) [a, b] = [b, a];
+      } else {
+        a = Math.floor(Math.random() * 16);
+        b = Math.floor(Math.random() * 11);
+      }
+      break;
+    case "Grup-8":
+    case "Grup-9":
+    case "Grup-10":
+      // 15'e kadar toplama + 15'e kadar çıkartma + 0-10 arası çarpma
+      op = ["+", "-", "*"][Math.floor(Math.random() * 3)];
+      if (op === "+") {
+        a = Math.floor(Math.random() * 16);
+        b = Math.floor(Math.random() * 16);
+      } else if (op === "-") {
+        a = Math.floor(Math.random() * 16);
+        b = Math.floor(Math.random() * 16);
+        if (b > a) [a, b] = [b, a];
+      } else {
+        a = Math.floor(Math.random() * 16);
+        b = Math.floor(Math.random() * 11);
+      }
       break;
   }
 
@@ -177,37 +237,43 @@ function submitAnswer() {
   }
 
   const parsedAnswer = parseInt(userAnswer);
+  const currentLevel = getCurrentLevel();
+
+  // Determine point and threshold logic
+  const afterGrup5 = levels.indexOf(currentLevel) >= 5;
+  const pointsPerCorrect = afterGrup5 ? 1 : 2;
+  const pointsPerLevel = afterGrup5 ? 10 : 20;
 
   if (isComboQuestion) {
-      clearInterval(comboTimer);
-      if (comboTimerElem) comboTimerElem.style.display = "none";
-      isComboQuestion = false;
-      // Stop timer sound
-      if (timerAudio) {
-        timerAudio.pause();
-        timerAudio.currentTime = 0;
-      }
-      if (parsedAnswer === currentAnswer) {
-        points += 5;
-        if(feedbackElem) feedbackElem.textContent = "🔥 KOMBO! 5 puan kazandın!";
-        playRandomSound("correct");
-      } else {
-        if(feedbackElem) feedbackElem.textContent = "⏰ Komboda yanlış cevap!";
-        playRandomSound("incorrect");
-      }
-      correctStreak = 0;
-      localStorage.setItem('points', points);
-      updateDisplay();
-      setTimeout(nextQuestion, 1500);
-      return;
+    clearInterval(comboTimer);
+    if (comboTimerElem) comboTimerElem.style.display = "none";
+    isComboQuestion = false;
+    // Stop timer sound
+    if (timerAudio) {
+      timerAudio.pause();
+      timerAudio.currentTime = 0;
+    }
+    if (parsedAnswer === currentAnswer) {
+      points += 5;
+      if(feedbackElem) feedbackElem.textContent = "🔥 KOMBO! 5 puan kazandın!";
+      playRandomSound("correct");
+    } else {
+      if(feedbackElem) feedbackElem.textContent = "⏰ Komboda yanlış cevap!";
+      playRandomSound("incorrect");
+    }
+    correctStreak = 0;
+    localStorage.setItem('points', points);
+    updateDisplay();
+    setTimeout(nextQuestion, 1500);
+    return;
   }
 
   if (parsedAnswer === currentAnswer) {
-    points += 2;
+    points += pointsPerCorrect;
     correctStreak++;
-    if(feedbackElem) feedbackElem.textContent = "🎉 Aferin! 2 puan kazandın!";
+    if(feedbackElem) feedbackElem.textContent = `🎉 Aferin! ${pointsPerCorrect} puan kazandın!`;
     playRandomSound("correct");
-    if (correctStreak >= 3) {
+    if (correctStreak >= 3 && !["Grup-9", "Grup-10"].includes(currentLevel)) {
       setTimeout(askComboQuestion, 1200);
       return;
     }
@@ -219,12 +285,22 @@ function submitAnswer() {
   }
 
   localStorage.setItem('points', points);
+
+  // Level up logic
   const previousLevelIndex = levelIndex;
-  levelIndex = Math.floor(points / 20);
+  // Use new threshold after Grup-5
+  let newLevelIndex;
+  if (points < 50) {
+    newLevelIndex = Math.floor(points / 20);
+  } else {
+    newLevelIndex = 2 + Math.floor((points - 40) / 10);
+  }
+  levelIndex = Math.min(newLevelIndex, levels.length - 1);
+
   if (levelIndex > previousLevelIndex && levelIndex < levels.length) {
     alert(`🎉 Yeni seviyeye geçtin: ${getCurrentLevel()}!`);
     playLevelUpSound();
-    launchConfetti();
+    launchLevelUpOverlay();
   }
 
   updateDisplay();
@@ -256,7 +332,12 @@ function updateDisplay() {
     "Grup-2": "images/level2.png",
     "Grup-3": "images/level3.png",
     "Grup-4": "images/level4.png",
-    "Grup-5": "images/level5.png"
+    "Grup-5": "images/level5.png",
+    "Grup-6": "images/level1.png",
+    "Grup-7": "images/level2.png",
+    "Grup-8": "images/level3.png",
+    "Grup-9": "images/level4.png",
+    "Grup-10": "images/level5.png"
   };
 
   const currentLevel = getCurrentLevel();
@@ -276,7 +357,7 @@ function updateDisplay() {
   }
 
   // Progress bar calculation
-  const maxPoints = 120;
+  const maxPoints = 150;
   const percent = Math.min(100, Math.round((points / maxPoints) * 100));
   const progressBar = document.getElementById("progress-bar");
   const progressText = document.getElementById("progress-text");
@@ -284,10 +365,13 @@ function updateDisplay() {
   if (progressText) progressText.textContent = percent + "%";
 }
 
-function launchConfetti() {
-  if (typeof window.launchConfettiP5 === "function") {
-    window.launchConfettiP5();
-  }
+function launchLevelUpOverlay() {
+  const overlay = document.getElementById("levelup-overlay");
+  if (!overlay) return;
+  overlay.style.display = "flex";
+  setTimeout(() => {
+    overlay.style.display = "none";
+  }, 1800); // 1.8 seconds
 }
 
 function updatelevel() {
@@ -298,7 +382,12 @@ function updatelevel() {
     "Grup-2": "Toplama ve çarpma işlemleri (0-9 arası sayılar).",
     "Grup-3": "Toplama ve çarpma işlemleri (0-9 arası sayılar, çarpma için 0-4).",
     "Grup-4": "Toplama ve çarpma işlemleri (0-15 arası sayılar, çarpma için 0-5).",
-    "Grup-5": "Toplama ve çarpma işlemleri (0-15 arası sayılar, çarpma için 0-10)."
+    "Grup-5": "15'e kadar toplama + 0-10 arası çıkartma + 0-5 arası çarpma.",
+    "Grup-6": "15'e kadar toplama + 0-10 arası çıkartma + 0-7 arası çarpma.",
+    "Grup-7": "15'e kadar toplama + 0-10 arası çıkartma + 0-10 arası çarpma.",
+    "Grup-8": "15'e kadar toplama + 15'e kadar çıkartma + 0-10 arası çarpma.",
+    "Grup-9": "15'e kadar toplama + 15'e kadar çıkartma + 0-10 arası çarpma. Her soru için 10 sn süre.",
+    "Grup-10": "15'e kadar toplama + 15'e kadar çıkartma + 0-10 arası çarpma. Her soru için 5 sn süre."
   };
 
   if (levelPointsDisplay) levelPointsDisplay.textContent = points;
@@ -518,7 +607,7 @@ function checkSudoku() {
   if (correct) {
     sudokuFeedbackElem.textContent = "Tebrikler, doğru çözdün! Yeni bir sudoku geliyor...";
     playLevelUpSound();
-    launchConfetti();
+    launchLevelUpOverlay();
     setTimeout(generateAndShowSudoku, 2000);
   } else {
     sudokuFeedbackElem.textContent = "Bazı cevaplar yanlış, tekrar dene!";
@@ -633,7 +722,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 document.addEventListener("DOMContentLoaded", () => {
   // Modal elements
   const settingsModal = document.getElementById("settings-modal");
-  const gearBtn = document.querySelector('button .text-[#0d171b], button [data-icon="Gear"]')?.closest("button");
+  const gearBtn = document.getElementById("settings-btn"); // <-- use the id
   const closeBtn = document.getElementById("close-settings");
   const musicVolume = document.getElementById("music-volume");
   const musicVolumeValue = document.getElementById("music-volume-value");
@@ -685,3 +774,49 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+// Timer for Grup-9 and Grup-10
+if (level === "Grup-9" || level === "Grup-10") {
+  let timerSeconds = level === "Grup-9" ? 10 : 5;
+  if (comboTimer) clearInterval(comboTimer);
+  comboTimeLeft = timerSeconds;
+  if (comboTimerElem) {
+    comboTimerElem.textContent = `Süre: ${comboTimeLeft} sn`;
+    comboTimerElem.style.display = "block";
+  }
+  // Play timer sound
+  if (timerAudio) {
+    timerAudio.pause();
+    timerAudio.currentTime = 0;
+  }
+  timerAudio = new Audio("sounds/timer.mpeg");
+  timerAudio.loop = true;
+  timerAudio.play().catch(() => {});
+  comboTimer = setInterval(() => {
+    comboTimeLeft--;
+    if (comboTimerElem) comboTimerElem.textContent = `Süre: ${comboTimeLeft} sn`;
+    if (comboTimeLeft <= 0) {
+      clearInterval(comboTimer);
+      if (comboTimerElem) comboTimerElem.style.display = "none";
+      // Stop timer sound
+      if (timerAudio) {
+        timerAudio.pause();
+        timerAudio.currentTime = 0;
+      }
+      if (feedbackElem) feedbackElem.textContent = "⏰ Süre doldu!";
+      setTimeout(nextQuestion, 1500);
+    }
+  }, 1000);
+} else {
+  if (comboTimer) clearInterval(comboTimer);
+  if (comboTimerElem) comboTimerElem.style.display = "none";
+  // Stop timer sound
+  if (timerAudio) {
+    timerAudio.pause();
+    timerAudio.currentTime = 0;
+  }
+}
+
+if (["Grup-9", "Grup-10"].includes(getCurrentLevel())) {
+  correctStreak = 0; // Never trigger combo
+}
