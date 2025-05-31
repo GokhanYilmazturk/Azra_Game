@@ -1,6 +1,7 @@
 // Global variables (these were already global in your original script)
 let points = parseInt(localStorage.getItem('points')) || 0;
-let levelIndex = Math.floor(points / 20);
+const currentLevel = getLevelFromPoints(points);
+const currentLevelIndex = levels.indexOf(currentLevel);
 const levels = [
   "Grup-1", "Grup-2", "Grup-3", "Grup-4", "Grup-5",
   "Grup-6", "Grup-7", "Grup-8", "Grup-9", "Grup-10"
@@ -12,6 +13,15 @@ let comboTimer = null;
 let comboTimeLeft = 10;
 let currentSudokuSolution = [];
 let timerAudio = null;
+
+// Function to get the level based on points
+function getLevelFromPoints(points) {
+  if (points < 100) {
+    return "Grup-" + (Math.floor(points / 20) + 1);
+  } else {
+    return "Grup-" + (Math.floor((points - 100) / 10) + 6);
+  }
+}
 
 // --- DOM Element References (to be assigned after fragments load) ---
 let mainSectionContainer, gameSectionContainer, levelSectionContainer, sudokuSectionContainer;
@@ -92,7 +102,7 @@ function initializeGame() {
 // --- Your Existing Game Logic Functions (No changes needed in most, just ensure DOM elements are accessed via variables set in initializeGame) ---
 
 function getCurrentLevel() {
-  return levels[Math.min(levelIndex, levels.length - 1)];
+  return getLevelFromPoints(points);
 }
 
 function startGame() {
@@ -287,25 +297,18 @@ function submitAnswer() {
   localStorage.setItem('points', points);
 
   // Level up logic
-  const previousLevelIndex = levelIndex;
-  // Use new threshold after Grup-5
-  let newLevelIndex;
-  if (points < 50) {
-    newLevelIndex = Math.floor(points / 20);
-  } else {
-    newLevelIndex = 2 + Math.floor((points - 40) / 10);
-  }
-  levelIndex = Math.min(newLevelIndex, levels.length - 1);
+  const previousLevel = getLevelFromPoints(points - pointsPerCorrect); // previous points
+  const newLevel = getLevelFromPoints(points);
 
-  if (levelIndex > previousLevelIndex && levelIndex < levels.length) {
-    alert(`🎉 Yeni seviyeye geçtin: ${getCurrentLevel()}!`);
+  if (previousLevel !== newLevel) {
+    alert(`🎉 Yeni seviyeye geçtin: ${newLevel}!`);
     playLevelUpSound();
     launchLevelUpOverlay();
   }
 
-  updateDisplay();
-  setTimeout(nextQuestion, 1500);
-}
+    updateDisplay();
+    setTimeout(nextQuestion, 1500);
+  }
 
 function playLevelUpSound() {
   if (localStorage.getItem("soundEnabled") === "false") return;
@@ -371,7 +374,7 @@ function launchLevelUpOverlay() {
   overlay.style.display = "flex";
   setTimeout(() => {
     overlay.style.display = "none";
-  }, 1800); // 1.8 seconds
+  }, 2500); // 2.5 seconds
 }
 
 function updatelevel() {
@@ -410,7 +413,7 @@ function updatelevel() {
 
 function resetGame() {
   points = 0;
-  levelIndex = 0;
+  currentLevelIndex = 0;
   localStorage.setItem('points', points);
   
   if (pointsDisplay) pointsDisplay.value = points;
@@ -438,11 +441,11 @@ function askComboQuestion() {
   timerAudio.loop = true;
   timerAudio.play().catch(() => {});
 
-  let comboLevelIndex = Math.min(levelIndex + 1, levels.length - 1);
+  let comboLevelIndex = Math.min(currentLevelIndex + 1, levels.length - 1);
   let comboLevel = levels[comboLevelIndex];
   let a, b, c, op1, op2, questionText;
 
-  if (levelIndex === levels.length - 1) {
+  if (currentLevelIndex === levels.length - 1) {
     a = Math.floor(Math.random() * 16);
     b = Math.floor(Math.random() * 11);
     c = Math.floor(Math.random() * 10);
@@ -619,12 +622,11 @@ const backgroundMusic = document.getElementById("backgroundMusic");
 
 // Play music when on main screen (Ana Sayfa)
 function playMainScreenMusic() {
-    if (backgroundMusic) {
+    // Only play if enabled
+    if (backgroundMusic && localStorage.getItem("musicEnabled") !== "false") {
         backgroundMusic.loop = true;
         backgroundMusic.volume = 0.5;
         backgroundMusic.play().catch(() => {
-            // Most browsers require user interaction to start audio
-            // So you can try again on the first user click
             document.body.addEventListener('click', () => {
                 backgroundMusic.play();
             }, { once: true });
@@ -708,7 +710,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
                 leaderboardSectionContainer.style.display = "block";
                 // Optionally, update leaderboard data here
-                // updateLeaderboard();
+                updateLeaderboard();
             });
         }
 
@@ -733,10 +735,10 @@ document.addEventListener("DOMContentLoaded", () => {
   if (gearBtn) {
     gearBtn.addEventListener("click", () => {
       settingsModal.style.display = "flex";
-      // Set current values
       musicVolume.value = backgroundMusic.volume;
       musicVolumeValue.textContent = Math.round(backgroundMusic.volume * 100) + "%";
-      musicToggle.checked = !backgroundMusic.paused;
+      // Use localStorage for checked state
+      musicToggle.checked = localStorage.getItem("musicEnabled") !== "false";
       soundToggle.checked = localStorage.getItem("soundEnabled") !== "false";
     });
   }
@@ -759,6 +761,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Music on/off
   if (musicToggle) {
     musicToggle.addEventListener("change", () => {
+      localStorage.setItem("musicEnabled", musicToggle.checked ? "true" : "false");
       if (musicToggle.checked) {
         backgroundMusic.play();
       } else {
@@ -819,4 +822,46 @@ if (level === "Grup-9" || level === "Grup-10") {
 
 if (["Grup-9", "Grup-10"].includes(getCurrentLevel())) {
   correctStreak = 0; // Never trigger combo
+}
+
+function updateLeaderboard() {
+  // Fictional players
+  const fictionalPlayers = [
+    { name: "Gokhan", points: 135 },
+    { name: "Rukiye", points: 87 },
+    { name: "Betul", points: 42 },
+    { name: "Zeynep", points: 19 },
+    { name: "Asya", points: 102 }
+  ].map(player => ({
+    ...player,
+    level: getLevelFromPoints(player.points)
+  }));
+
+  // Add Azra (the current player)
+  const azraEntry = {
+    name: "Azra",
+    points: points,
+    level: getCurrentLevel()
+  };
+
+  // Combine and sort
+  let leaderboard = [...fictionalPlayers, azraEntry];
+  leaderboard.sort((a, b) => b.points - a.points);
+
+  const leaderboardList = document.getElementById("leaderboard-list");
+  if (!leaderboardList) return;
+
+  leaderboardList.innerHTML = "";
+  leaderboard.forEach(entry => {
+    const tr = document.createElement("tr");
+    if (entry.name === "Azra" && entry.points === points) {
+      tr.className = "leaderboard-current";
+    }
+    tr.innerHTML = `
+      <td>${entry.name}</td>
+      <td>${entry.level}</td>
+      <td>${entry.points}</td>
+    `;
+    leaderboardList.appendChild(tr);
+  });
 }
