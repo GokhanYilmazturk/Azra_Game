@@ -1,7 +1,7 @@
 // Global variables (these were already global in your original script)
 let points = parseInt(localStorage.getItem('points')) || 0;
-const currentLevel = getLevelFromPoints(points);
-const currentLevelIndex = levels.indexOf(currentLevel);
+//const currentLevel = getLevelFromPoints(points);
+//const currentLevelIndex = levels.indexOf(currentLevel);
 const levels = [
   "Grup-1", "Grup-2", "Grup-3", "Grup-4", "Grup-5",
   "Grup-6", "Grup-7", "Grup-8", "Grup-9", "Grup-10"
