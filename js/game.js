@@ -921,6 +921,16 @@ function updateLeaderboard() {
   let leaderboard = [...fictionalPlayers, azraEntry];
   leaderboard.sort((a, b) => b.points - a.points);
 
+  const leaderboardCharacter = document.getElementById("leaderboard-character");
+    const currentLevel = getCurrentLevel();
+    const imgSrc = levelCharacterImages[currentLevel];
+    if (leaderboardCharacter && imgSrc) {
+      leaderboardCharacter.src = imgSrc;
+      leaderboardCharacter.style.display = "block";
+    } else if (leaderboardCharacter) {
+      leaderboardCharacter.style.display = "none";
+    }
+
   const leaderboardList = document.getElementById("leaderboard-list");
   if (!leaderboardList) return;
 
