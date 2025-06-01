@@ -30,17 +30,17 @@ const levelCharacterImages = {
 
 // Background images for each level
 const levelBackgrounds = {
-    "Grup-1": "images/level1.png",
-    "Grup-2": "images/level2.png",
-    "Grup-3": "images/level3.png",
-    "Grup-4": "images/level4.png",
-    "Grup-5": "images/level5.png",
-    "Grup-6": "images/level1.png",
-    "Grup-7": "images/level2.png",
-    "Grup-8": "images/level3.png",
-    "Grup-9": "images/level4.png",
-    "Grup-10": "images/level5.png"
-  };
+  "Grup-1": "images/level1.png",
+  "Grup-2": "images/level2.png",
+  "Grup-3": "images/level3.png",
+  "Grup-4": "images/level4.png",
+  "Grup-5": "images/level5.png",
+  "Grup-6": "images/level1.png",
+  "Grup-7": "images/level2.png",
+  "Grup-8": "images/level3.png",
+  "Grup-9": "images/level4.png",
+  "Grup-10": "images/level5.png"
+};
 
 // Function to get the level based on points
 function getLevelFromPoints(points) {
@@ -59,72 +59,72 @@ let levelChallengesList, sudokuFeedbackElem;
 
 // --- Fragment Loading Function ---
 async function loadFragment(fragmentPath, containerId) {
-    try {
-        const response = await fetch(fragmentPath);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status} for ${fragmentPath}`);
-        }
-        const html = await response.text();
-        document.getElementById(containerId).innerHTML = html;
-    } catch (error) {
-        console.error(`Could not load fragment ${fragmentPath}:`, error);
-        document.getElementById(containerId).innerHTML = `<p style="color:red;">Error loading content for ${containerId}. Please check console.</p>`;
+  try {
+    const response = await fetch(fragmentPath);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status} for ${fragmentPath}`);
     }
+    const html = await response.text();
+    document.getElementById(containerId).innerHTML = html;
+  } catch (error) {
+    console.error(`Could not load fragment ${fragmentPath}:`, error);
+    document.getElementById(containerId).innerHTML = `<p style="color:red;">Error loading content for ${containerId}. Please check console.</p>`;
+  }
 }
 
 // --- Initialization Function (called after fragments are loaded) ---
 function initializeGame() {
-    // Assign DOM element references
-    mainSectionContainer = document.getElementById("main-section-container");
-    gameSectionContainer = document.getElementById("game-section-container");
-    levelSectionContainer = document.getElementById("level-section-container");
-    sudokuSectionContainer = document.getElementById("sudoku-section-container");
-    leaderboardSectionContainer = document.getElementById("leaderboard-section-container");
+  // Assign DOM element references
+  mainSectionContainer = document.getElementById("main-section-container");
+  gameSectionContainer = document.getElementById("game-section-container");
+  levelSectionContainer = document.getElementById("level-section-container");
+  sudokuSectionContainer = document.getElementById("sudoku-section-container");
+  leaderboardSectionContainer = document.getElementById("leaderboard-section-container");
 
-    // Elements from main_section.html
-    pointsDisplay = document.getElementById("points");
-    levelDisplay = document.getElementById("level");
+  // Elements from main_section.html
+  pointsDisplay = document.getElementById("points");
+  levelDisplay = document.getElementById("level");
 
-    // Elements from game_section.html (check if they exist before assigning)
-    gamePointsDisplay = document.getElementById("game-points");
-    gameLevelDisplay = document.getElementById("game-level");
-    questionTextElem = document.getElementById("question-text");
-    answerInputElem = document.getElementById("answer-input");
-    feedbackElem = document.getElementById("feedback");
-    comboTimerElem = document.getElementById("combo-timer");
+  // Elements from game_section.html (check if they exist before assigning)
+  gamePointsDisplay = document.getElementById("game-points");
+  gameLevelDisplay = document.getElementById("game-level");
+  questionTextElem = document.getElementById("question-text");
+  answerInputElem = document.getElementById("answer-input");
+  feedbackElem = document.getElementById("feedback");
+  comboTimerElem = document.getElementById("combo-timer");
 
-    // Elements from level_section.html
-    levelPointsDisplay = document.getElementById("level-points");
-    levelLevelDisplay = document.getElementById("level-level");
-    levelChallengesList = document.getElementById("level-challenges");
+  // Elements from level_section.html
+  levelPointsDisplay = document.getElementById("level-points");
+  levelLevelDisplay = document.getElementById("level-level");
+  levelChallengesList = document.getElementById("level-challenges");
 
-    // Elements from sudoku_section.html
-    sudokuFeedbackElem = document.getElementById("sudoku-feedback");
+  // Elements from sudoku_section.html
+  sudokuFeedbackElem = document.getElementById("sudoku-feedback");
 
 
-    // Initial UI setup
-    if (pointsDisplay) pointsDisplay.value = points; // It's an input field
-    if (levelDisplay) levelDisplay.value = getCurrentLevel(); // It's an input field
-    
-    updatelevel(); // This will populate level data
-    updateDisplay(); // Sets initial background etc.
-    playMainScreenMusic(); // Play music on main screen
+  // Initial UI setup
+  if (pointsDisplay) pointsDisplay.value = points; // It's an input field
+  if (levelDisplay) levelDisplay.value = getCurrentLevel(); // It's an input field
 
-    // Add "Enter" key functionality for the answer input (if it exists)
-    if (answerInputElem) {
-        answerInputElem.addEventListener("keydown", function (event) {
-            if (event.key === "Enter") {
-                submitAnswer();
-            }
-        });
-    }
+  updatelevel(); // This will populate level data
+  updateDisplay(); // Sets initial background etc.
+  playMainScreenMusic(); // Play music on main screen
 
-    // Set initial visibility (CSS already handles some, but JS can override/confirm)
-    mainSectionContainer.style.display = "block";
-    levelSectionContainer.style.display = "none";
-    gameSectionContainer.style.display = "none";
-    sudokuSectionContainer.style.display = "none";
-    leaderboardSectionContainer.style.display = "none";
+  // Add "Enter" key functionality for the answer input (if it exists)
+  if (answerInputElem) {
+    answerInputElem.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        submitAnswer();
+      }
+    });
+  }
+
+  // Set initial visibility (CSS already handles some, but JS can override/confirm)
+  mainSectionContainer.style.display = "block";
+  levelSectionContainer.style.display = "none";
+  gameSectionContainer.style.display = "none";
+  sudokuSectionContainer.style.display = "none";
+  leaderboardSectionContainer.style.display = "none";
 }
 
 // --- Your Existing Game Logic Functions (No changes needed in most, just ensure DOM elements are accessed via variables set in initializeGame) ---
@@ -149,84 +149,130 @@ function nextQuestion() {
 
   switch (level) {
     case "Grup-1":
-      a = Math.floor(Math.random() * 10);
-      b = Math.floor(Math.random() * 10);
+      // 0-5 arası toplama
       op = "+";
+      a = Math.floor(Math.random() * 6);
+      b = Math.floor(Math.random() * 6);
       break;
     case "Grup-2":
-      op = Math.random() < 0.5 ? "+" : "*";
-      a = Math.floor(Math.random() * 10);
-      b = op === "+" ? Math.floor(Math.random() * 10) : Math.floor(Math.random() * 3);
+      // 0-10 arası toplama
+      op = "+";
+      a = Math.floor(Math.random() * 11);
+      b = Math.floor(Math.random() * 11);
       break;
     case "Grup-3":
+      // 0-10 arası toplama + 0-3 arası çarpma
       op = Math.random() < 0.5 ? "+" : "*";
-      a = Math.floor(Math.random() * 10);
-      b = op === "+" ? Math.floor(Math.random() * 10) : Math.floor(Math.random() * 5);
+      if (op === "+") {
+        a = Math.floor(Math.random() * 11);
+        b = Math.floor(Math.random() * 11);
+      } else {
+        a = Math.floor(Math.random() * 4);
+        b = Math.floor(Math.random() * 4);
+      }
       break;
     case "Grup-4":
-      op = Math.random() < 0.5 ? "+" : "*";
-      a = Math.floor(Math.random() * 16);
-      b = op === "+" ? Math.floor(Math.random() * 16) : Math.floor(Math.random() * 6);
+      // 0-10 arası toplama + 0-10 arası çıkartma + 0-4 arası çarpma
+      op = ["+", "-", "*"][Math.floor(Math.random() * 3)];
+      if (op === "+") {
+        a = Math.floor(Math.random() * 11);
+        b = Math.floor(Math.random() * 11);
+      } else if (op === "-") {
+        a = Math.floor(Math.random() * 11);
+        b = Math.floor(Math.random() * 11);
+        if (b > a) [a, b] = [b, a];
+      } else {
+        a = Math.floor(Math.random() * 5);
+        b = Math.floor(Math.random() * 5);
+      }
       break;
     case "Grup-5":
-      // 15'e kadar toplama + 0-10 arası çıkartma + 0-5 arası çarpma
+      // 0-15 arası toplama + 0-10 arası çıkartma + 0-5 arası çarpma
       op = ["+", "-", "*"][Math.floor(Math.random() * 3)];
       if (op === "+") {
         a = Math.floor(Math.random() * 16);
         b = Math.floor(Math.random() * 16);
       } else if (op === "-") {
-        a = Math.floor(Math.random() * 16);
+        a = Math.floor(Math.random() * 11);
         b = Math.floor(Math.random() * 11);
-        if (b > a) [a, b] = [b, a]; // avoid negative results
+        if (b > a) [a, b] = [b, a];
       } else {
-        a = Math.floor(Math.random() * 16);
+        a = Math.floor(Math.random() * 6);
         b = Math.floor(Math.random() * 6);
       }
       break;
     case "Grup-6":
-      // 15'e kadar toplama + 0-10 arası çıkartma + 0-7 arası çarpma
+      // 5-15 arası toplama + 0-10 arası çıkartma + 0-6 arası çarpma
       op = ["+", "-", "*"][Math.floor(Math.random() * 3)];
       if (op === "+") {
-        a = Math.floor(Math.random() * 16);
-        b = Math.floor(Math.random() * 16);
+        a = Math.floor(Math.random() * 11) + 5;
+        b = Math.floor(Math.random() * 11) + 5;
       } else if (op === "-") {
-        a = Math.floor(Math.random() * 16);
+        a = Math.floor(Math.random() * 11);
         b = Math.floor(Math.random() * 11);
         if (b > a) [a, b] = [b, a];
       } else {
-        a = Math.floor(Math.random() * 16);
-        b = Math.floor(Math.random() * 8);
+        a = Math.floor(Math.random() * 7);
+        b = Math.floor(Math.random() * 7);
       }
       break;
     case "Grup-7":
-      // 15'e kadar toplama + 0-10 arası çıkartma + 0-10 arası çarpma
+      // 5-15 arası toplama + 0-10 arası çıkartma + 0-7 arası çarpma
       op = ["+", "-", "*"][Math.floor(Math.random() * 3)];
       if (op === "+") {
-        a = Math.floor(Math.random() * 16);
-        b = Math.floor(Math.random() * 16);
+        a = Math.floor(Math.random() * 11) + 5;
+        b = Math.floor(Math.random() * 11) + 5;
       } else if (op === "-") {
-        a = Math.floor(Math.random() * 16);
+        a = Math.floor(Math.random() * 11);
         b = Math.floor(Math.random() * 11);
         if (b > a) [a, b] = [b, a];
       } else {
-        a = Math.floor(Math.random() * 16);
-        b = Math.floor(Math.random() * 11);
+        a = Math.floor(Math.random() * 8);
+        b = Math.floor(Math.random() * 8);
       }
       break;
     case "Grup-8":
-    case "Grup-9":
-    case "Grup-10":
-      // 15'e kadar toplama + 15'e kadar çıkartma + 0-10 arası çarpma
+      // 5-20 arası toplama + 0-10 arası çıkartma + 0-8 arası çarpma
       op = ["+", "-", "*"][Math.floor(Math.random() * 3)];
       if (op === "+") {
-        a = Math.floor(Math.random() * 16);
-        b = Math.floor(Math.random() * 16);
+        a = Math.floor(Math.random() * 16) + 5;
+        b = Math.floor(Math.random() * 16) + 5;
+      } else if (op === "-") {
+        a = Math.floor(Math.random() * 11);
+        b = Math.floor(Math.random() * 11);
+        if (b > a) [a, b] = [b, a];
+      } else {
+        a = Math.floor(Math.random() * 9);
+        b = Math.floor(Math.random() * 9);
+      }
+      break;
+    case "Grup-9":
+      // 10-20 arası toplama + 0-10 arası çıkartma + 0-9 arası çarpma
+      op = ["+", "-", "*"][Math.floor(Math.random() * 3)];
+      if (op === "+") {
+        a = Math.floor(Math.random() * 11) + 10;
+        b = Math.floor(Math.random() * 11) + 10;
+      } else if (op === "-") {
+        a = Math.floor(Math.random() * 11);
+        b = Math.floor(Math.random() * 11);
+        if (b > a) [a, b] = [b, a];
+      } else {
+        a = Math.floor(Math.random() * 10);
+        b = Math.floor(Math.random() * 10);
+      }
+      break;
+    case "Grup-10":
+      // 10-20 arası toplama + 0-10 arası çıkartma + 0-10 arası çarpma
+      op = ["+", "-", "*"][Math.floor(Math.random() * 3)];
+      if (op === "+") {
+        a = Math.floor(Math.random() * 11) + 10;
+        b = Math.floor(Math.random() * 11) + 10;
       } else if (op === "-") {
         a = Math.floor(Math.random() * 16);
         b = Math.floor(Math.random() * 16);
         if (b > a) [a, b] = [b, a];
       } else {
-        a = Math.floor(Math.random() * 16);
+        a = Math.floor(Math.random() * 11);
         b = Math.floor(Math.random() * 11);
       }
       break;
@@ -234,11 +280,11 @@ function nextQuestion() {
 
   currentAnswer = op === "+" ? a + b : a * b;
   const opSymbol = op === "+" ? "+" : "×";
-  if(questionTextElem) questionTextElem.textContent = `${a} ${opSymbol} ${b} işlemi kaç eder?`;
-  if(answerInputElem) answerInputElem.value = "";
-  if(feedbackElem) feedbackElem.textContent = "";
+  if (questionTextElem) questionTextElem.textContent = `${a} ${opSymbol} ${b} işlemi kaç eder?`;
+  if (answerInputElem) answerInputElem.value = "";
+  if (feedbackElem) feedbackElem.textContent = "";
   updateDisplay();
-  if(answerInputElem) answerInputElem.focus();
+  if (answerInputElem) answerInputElem.focus();
 }
 
 function validateInput(input) {
@@ -248,16 +294,16 @@ function validateInput(input) {
 function playRandomSound(type) {
   if (localStorage.getItem("soundEnabled") === "false") return;
   const correctSounds = ["sounds/correct1.m4a", "sounds/correct2.m4a", "sounds/correct3.m4a",
-                        "sounds/correct4.m4a", "sounds/correct5.m4a", "sounds/correct6.m4a"];
+    "sounds/correct4.m4a", "sounds/correct5.m4a", "sounds/correct6.m4a"];
   const incorrectSounds = ["sounds/incorrect1.m4a", "sounds/incorrect2.m4a", "sounds/incorrect3.m4a"];
   const sounds = type === "correct" ? correctSounds : incorrectSounds;
   if (sounds.length === 0) {
-      console.warn(`No sounds defined for type: ${type}`);
-      // Fallback to original sounds if new ones aren't found or list is empty
-      const fallbackSound = type === "correct" ? "sounds/correct.mp3" : "sounds/incorrect.mp3";
-      const audio = new Audio(fallbackSound);
-      audio.play().catch(e => console.error("Error playing fallback sound:", e));
-      return;
+    console.warn(`No sounds defined for type: ${type}`);
+    // Fallback to original sounds if new ones aren't found or list is empty
+    const fallbackSound = type === "correct" ? "sounds/correct.mp3" : "sounds/incorrect.mp3";
+    const audio = new Audio(fallbackSound);
+    audio.play().catch(e => console.error("Error playing fallback sound:", e));
+    return;
   }
   const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
   const audio = new Audio(randomSound);
@@ -270,7 +316,7 @@ function submitAnswer() {
   const userAnswer = answerInputElem.value.trim();
 
   if (userAnswer === "" || isNaN(userAnswer)) {
-    if(feedbackElem) feedbackElem.textContent = "Lütfen geçerli bir sayı gir!";
+    if (feedbackElem) feedbackElem.textContent = "Lütfen geçerli bir sayı gir!";
     return;
   }
 
@@ -293,10 +339,10 @@ function submitAnswer() {
     }
     if (parsedAnswer === currentAnswer) {
       points += 5;
-      if(feedbackElem) feedbackElem.textContent = "🔥 KOMBO! 5 puan kazandın!";
+      if (feedbackElem) feedbackElem.textContent = "🔥 KOMBO! 5 puan kazandın!";
       playRandomSound("correct");
     } else {
-      if(feedbackElem) feedbackElem.textContent = "⏰ Komboda yanlış cevap!";
+      if (feedbackElem) feedbackElem.textContent = "⏰ Komboda yanlış cevap!";
       playRandomSound("incorrect");
     }
     correctStreak = 0;
@@ -309,7 +355,7 @@ function submitAnswer() {
   if (parsedAnswer === currentAnswer) {
     points += pointsPerCorrect;
     correctStreak++;
-    if(feedbackElem) feedbackElem.textContent = `🎉 Aferin! ${pointsPerCorrect} puan kazandın!`;
+    if (feedbackElem) feedbackElem.textContent = `🎉 Aferin! ${pointsPerCorrect} puan kazandın!`;
     playRandomSound("correct");
     if (correctStreak >= 3 && !["Grup-9", "Grup-10"].includes(currentLevel)) {
       setTimeout(askComboQuestion, 1200);
@@ -318,7 +364,7 @@ function submitAnswer() {
   } else {
     points = Math.max(0, points - 1);
     correctStreak = 0;
-    if(feedbackElem) feedbackElem.textContent = "❌ Bu yanlış oldu, 1 puan kaybettin.";
+    if (feedbackElem) feedbackElem.textContent = "❌ Bu yanlış oldu, 1 puan kaybettin.";
     playRandomSound("incorrect");
   }
 
@@ -334,9 +380,9 @@ function submitAnswer() {
     launchLevelUpOverlay();
   }
 
-    updateDisplay();
-    setTimeout(nextQuestion, 1500);
-  }
+  updateDisplay();
+  setTimeout(nextQuestion, 1500);
+}
 
 function playLevelUpSound() {
   if (localStorage.getItem("soundEnabled") === "false") return;
@@ -348,7 +394,7 @@ function updateDisplay() {
   // Update main section displays (these are input fields)
   if (pointsDisplay) pointsDisplay.value = points;
   if (levelDisplay) levelDisplay.value = getCurrentLevel();
-  
+
   // Update game section displays (these are spans)
   if (gamePointsDisplay) gamePointsDisplay.textContent = points;
   if (gameLevelDisplay) gameLevelDisplay.textContent = getCurrentLevel();
@@ -408,16 +454,16 @@ function updatelevel() {
   if (!levelChallengesList) return; // Guard clause
 
   const challenges = {
-    "Grup-1": "Toplama işlemleri (0-9 arası sayılar).",
-    "Grup-2": "Toplama ve çarpma işlemleri (0-9 arası sayılar).",
-    "Grup-3": "Toplama ve çarpma işlemleri (0-9 arası sayılar, çarpma için 0-4).",
-    "Grup-4": "Toplama ve çarpma işlemleri (0-15 arası sayılar, çarpma için 0-5).",
-    "Grup-5": "15'e kadar toplama + 0-10 arası çıkartma + 0-5 arası çarpma.",
-    "Grup-6": "15'e kadar toplama + 0-10 arası çıkartma + 0-7 arası çarpma.",
-    "Grup-7": "15'e kadar toplama + 0-10 arası çıkartma + 0-10 arası çarpma.",
-    "Grup-8": "15'e kadar toplama + 15'e kadar çıkartma + 0-10 arası çarpma.",
-    "Grup-9": "15'e kadar toplama + 15'e kadar çıkartma + 0-10 arası çarpma. Her soru için 10 sn süre.",
-    "Grup-10": "15'e kadar toplama + 15'e kadar çıkartma + 0-10 arası çarpma. Her soru için 5 sn süre."
+    "Grup-1": "0-5 arası toplama.",
+    "Grup-2": "0-10 arası toplama.",
+    "Grup-3": "0-10 arası toplama + 0-3 arası çarpma.",
+    "Grup-4": "0-10 arası toplama + 0-10 arası çıkartma + 0-4 arası çarpma.",
+    "Grup-5": "0-15 arası toplama + 0-10 arası çıkartma + 0-5 arası çarpma.",
+    "Grup-6": "5-15 arası toplama + 0-10 arası çıkartma + 0-6 arası çarpma.",
+    "Grup-7": "5-15 arası toplama + 0-10 arası çıkartma + 0-7 arası çarpma.",
+    "Grup-8": "5-20 arası toplama + 0-10 arası çıkartma + 0-8 arası çarpma.",
+    "Grup-9": "10-20 arası toplama + 0-10 arası çıkartma + 0-9 arası çarpma. Her soru için 10 sn süre.",
+    "Grup-10": "10-20 arası toplama + 0-10 arası çıkartma + 0-10 arası çarpma.. Her soru için 5 sn süre."
   };
 
   if (levelPointsDisplay) levelPointsDisplay.textContent = points;
@@ -442,12 +488,12 @@ function resetGame() {
   points = 0;
   currentLevelIndex = 0;
   localStorage.setItem('points', points);
-  
+
   if (pointsDisplay) pointsDisplay.value = points;
   if (levelDisplay) levelDisplay.value = getCurrentLevel();
   if (levelPointsDisplay) levelPointsDisplay.textContent = points;
   if (levelLevelDisplay) levelLevelDisplay.textContent = getCurrentLevel();
-  
+
   updateDisplay(); // To reset background etc.
   alert("Oyun sıfırlandı! Yeni bir başlangıç yapabilirsin.");
 }
@@ -466,7 +512,7 @@ function askComboQuestion() {
   }
   timerAudio = new Audio("sounds/timer.mpeg");
   timerAudio.loop = true;
-  timerAudio.play().catch(() => {});
+  timerAudio.play().catch(() => { });
 
   let comboLevelIndex = Math.min(currentLevelIndex + 1, levels.length - 1);
   let comboLevel = levels[comboLevelIndex];
@@ -530,13 +576,13 @@ function askComboQuestion() {
     }
   }
 
-  if(questionTextElem) questionTextElem.textContent = questionText;
-  if(answerInputElem) answerInputElem.value = "";
-  if(answerInputElem) answerInputElem.focus();
+  if (questionTextElem) questionTextElem.textContent = questionText;
+  if (answerInputElem) answerInputElem.value = "";
+  if (answerInputElem) answerInputElem.focus();
 
   comboTimer = setInterval(() => {
     comboTimeLeft--;
-    if(comboTimerElem) comboTimerElem.textContent = `KOMBO SORUSU! Süre: ${comboTimeLeft} sn`;
+    if (comboTimerElem) comboTimerElem.textContent = `KOMBO SORUSU! Süre: ${comboTimeLeft} sn`;
     if (comboTimeLeft <= 0) {
       clearInterval(comboTimer);
       if (comboTimerElem) comboTimerElem.style.display = "none";
@@ -585,7 +631,7 @@ function backToMain() {
 }
 
 function generateAndShowSudoku() {
-  if(sudokuFeedbackElem) sudokuFeedbackElem.textContent = "";
+  if (sudokuFeedbackElem) sudokuFeedbackElem.textContent = "";
   currentSudokuSolution = generateSudoku4x4();
   let blanks = new Set();
   while (blanks.size < 8) {
@@ -618,7 +664,7 @@ function showSudoku() {
 }
 
 function checkSudoku() {
-  if(!sudokuFeedbackElem) return;
+  if (!sudokuFeedbackElem) return;
   let correct = true;
   for (let r = 0; r < 4; r++) {
     for (let c = 0; c < 4; c++) {
@@ -649,102 +695,102 @@ const backgroundMusic = document.getElementById("backgroundMusic");
 
 // Play music when on main screen (Ana Sayfa)
 function playMainScreenMusic() {
-    // Only play if enabled
-    if (backgroundMusic && localStorage.getItem("musicEnabled") !== "false") {
-        backgroundMusic.loop = true;
-        backgroundMusic.volume = 0.5;
-        backgroundMusic.play().catch(() => {
-            document.body.addEventListener('click', () => {
-                backgroundMusic.play();
-            }, { once: true });
-        });
-    }
+  // Only play if enabled
+  if (backgroundMusic && localStorage.getItem("musicEnabled") !== "false") {
+    backgroundMusic.loop = true;
+    backgroundMusic.volume = 0.5;
+    backgroundMusic.play().catch(() => {
+      document.body.addEventListener('click', () => {
+        backgroundMusic.play();
+      }, { once: true });
+    });
+  }
 }
 
 // Pause music when leaving main screen
 function pauseMainScreenMusic() {
-    if (backgroundMusic) backgroundMusic.pause();
+  if (backgroundMusic) backgroundMusic.pause();
 }
 
 // Call this in navigation logic:
 
 // --- Event Listener to Load Fragments and Initialize ---
 document.addEventListener("DOMContentLoaded", async () => {
-    // Define fragment paths and their container IDs
-    const fragmentsToLoad = [
-        { path: "fragments/main_section.html", id: "main-section-container" },
-        { path: "fragments/game_section.html", id: "game-section-container" },
-        { path: "fragments/level_section.html", id: "level-section-container" },
-        { path: "fragments/sudoku_section.html", id: "sudoku-section-container" },
-        { path: "fragments/leaderboard_section.html", id: "leaderboard-section-container" }
-    ];
+  // Define fragment paths and their container IDs
+  const fragmentsToLoad = [
+    { path: "fragments/main_section.html", id: "main-section-container" },
+    { path: "fragments/game_section.html", id: "game-section-container" },
+    { path: "fragments/level_section.html", id: "level-section-container" },
+    { path: "fragments/sudoku_section.html", id: "sudoku-section-container" },
+    { path: "fragments/leaderboard_section.html", id: "leaderboard-section-container" }
+  ];
 
-    // Create an array of promises for loading each fragment
-    const loadPromises = fragmentsToLoad.map(fragment => loadFragment(fragment.path, fragment.id));
+  // Create an array of promises for loading each fragment
+  const loadPromises = fragmentsToLoad.map(fragment => loadFragment(fragment.path, fragment.id));
 
-    try {
-        // Wait for all fragments to be loaded
-        await Promise.all(loadPromises);
-        // Once all fragments are loaded, initialize the game and UI elements
-        initializeGame();
+  try {
+    // Wait for all fragments to be loaded
+    await Promise.all(loadPromises);
+    // Once all fragments are loaded, initialize the game and UI elements
+    initializeGame();
 
-        // --- Add navigation logic for header buttons ---
-        const homeBtn = document.getElementById("home-btn");
-        const levelBtn = document.getElementById("level-btn");
+    // --- Add navigation logic for header buttons ---
+    const homeBtn = document.getElementById("home-btn");
+    const levelBtn = document.getElementById("level-btn");
 
-        if (homeBtn) {
-            homeBtn.addEventListener("click", (e) => {
-                e.preventDefault();
-                // Show main section, hide others
-                mainSectionContainer.style.display = "block";
-                gameSectionContainer.style.display = "none";
-                levelSectionContainer.style.display = "none";
-                sudokuSectionContainer.style.display = "none";
-                leaderboardSectionContainer.style.display = "none";
-                updateDisplay();
-                playMainScreenMusic(); // Play music on main screen
-            });
-        }
-
-        if (levelBtn) {
-            levelBtn.addEventListener("click", (e) => {
-                e.preventDefault();
-                // Show level section, hide others
-                mainSectionContainer.style.display = "none";
-                gameSectionContainer.style.display = "none";
-                levelSectionContainer.style.display = "block";
-                sudokuSectionContainer.style.display = "none";
-                leaderboardSectionContainer.style.display = "none";
-                updatelevel();
-                pauseMainScreenMusic(); // Pause music when navigating away from main screen
-            });
-        }
-
-    
-        // Leaderboard button logic
-        const leaderboardBtn = document.getElementById("leaderboard-btn");
-        if (leaderboardBtn) {
-            leaderboardBtn.addEventListener("click", async (e) => {
-                e.preventDefault();
-                // Hide all other sections
-                mainSectionContainer.style.display = "none";
-                gameSectionContainer.style.display = "none";
-                levelSectionContainer.style.display = "none";
-                sudokuSectionContainer.style.display = "none";
-                // Load leaderboard fragment if not loaded yet
-                if (!leaderboardSectionContainer.innerHTML.trim()) {
-                    await loadFragment("fragments/leaderboard_section.html", "leaderboard-section-container");
-                }
-                leaderboardSectionContainer.style.display = "block";
-                // Optionally, update leaderboard data here
-                updateLeaderboard();
-            });
-        }
-
-    } catch (error) {
-        console.error("Error loading one or more fragments:", error);
-        document.body.innerHTML = "<p>Üzgünüz, oyun yüklenirken bir sorun oluştu. Lütfen sayfayı yenileyin veya daha sonra tekrar deneyin.</p>";
+    if (homeBtn) {
+      homeBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        // Show main section, hide others
+        mainSectionContainer.style.display = "block";
+        gameSectionContainer.style.display = "none";
+        levelSectionContainer.style.display = "none";
+        sudokuSectionContainer.style.display = "none";
+        leaderboardSectionContainer.style.display = "none";
+        updateDisplay();
+        playMainScreenMusic(); // Play music on main screen
+      });
     }
+
+    if (levelBtn) {
+      levelBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        // Show level section, hide others
+        mainSectionContainer.style.display = "none";
+        gameSectionContainer.style.display = "none";
+        levelSectionContainer.style.display = "block";
+        sudokuSectionContainer.style.display = "none";
+        leaderboardSectionContainer.style.display = "none";
+        updatelevel();
+        pauseMainScreenMusic(); // Pause music when navigating away from main screen
+      });
+    }
+
+
+    // Leaderboard button logic
+    const leaderboardBtn = document.getElementById("leaderboard-btn");
+    if (leaderboardBtn) {
+      leaderboardBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        // Hide all other sections
+        mainSectionContainer.style.display = "none";
+        gameSectionContainer.style.display = "none";
+        levelSectionContainer.style.display = "none";
+        sudokuSectionContainer.style.display = "none";
+        // Load leaderboard fragment if not loaded yet
+        if (!leaderboardSectionContainer.innerHTML.trim()) {
+          await loadFragment("fragments/leaderboard_section.html", "leaderboard-section-container");
+        }
+        leaderboardSectionContainer.style.display = "block";
+        // Optionally, update leaderboard data here
+        updateLeaderboard();
+      });
+    }
+
+  } catch (error) {
+    console.error("Error loading one or more fragments:", error);
+    document.body.innerHTML = "<p>Üzgünüz, oyun yüklenirken bir sorun oluştu. Lütfen sayfayı yenileyin veya daha sonra tekrar deneyin.</p>";
+  }
 });
 
 // --- Modal Logic ---
@@ -821,7 +867,7 @@ if (level === "Grup-9" || level === "Grup-10") {
   }
   timerAudio = new Audio("sounds/timer.mpeg");
   timerAudio.loop = true;
-  timerAudio.play().catch(() => {});
+  timerAudio.play().catch(() => { });
   comboTimer = setInterval(() => {
     comboTimeLeft--;
     if (comboTimerElem) comboTimerElem.textContent = `Süre: ${comboTimeLeft} sn`;
