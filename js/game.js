@@ -1,6 +1,6 @@
 // Global variables (these were already global in your original script)
 let points = parseInt(localStorage.getItem('points')) || 0;
-const currentLevel = getCurrentLevel();
+//const currentLevel = getCurrentLevel();
 const levels = [
   "Grup-1", "Grup-2", "Grup-3", "Grup-4", "Grup-5",
   "Grup-6", "Grup-7", "Grup-8", "Grup-9", "Grup-10"
@@ -89,11 +89,11 @@ async function loadFragment(fragmentPath, containerId) {
 // --- Initialization Function (called after fragments are loaded) ---
 function initializeGame() {
   // Assign DOM element references
-  mainSectionContainer = document.getElementById("main-section-container");
-  gameSectionContainer = document.getElementById("game-section-container");
-  levelSectionContainer = document.getElementById("level-section-container");
-  sudokuSectionContainer = document.getElementById("sudoku-section-container");
-  leaderboardSectionContainer = document.getElementById("leaderboard-section-container");
+  mainSectionContainer = document.getElementById("main-section");
+  gameSectionContainer = document.getElementById("game-section");
+  levelSectionContainer = document.getElementById("level-section");
+  sudokuSectionContainer = document.getElementById("sudoku-section");
+  leaderboardSectionContainer = document.getElementById("leaderboard-section");
 
   // Elements from main_section.html
   pointsDisplay = document.getElementById("points");
@@ -563,4 +563,3 @@ function updateLeaderboard() {
 
   // ...existing leaderboard table population logic...
 }
-
