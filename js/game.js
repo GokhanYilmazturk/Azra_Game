@@ -1,11 +1,11 @@
 // Global variables (these were already global in your original script)
 let points = parseInt(localStorage.getItem('points')) || 0;
 const currentLevel = getLevelFromPoints(points);
-const currentLevelIndex = levels.indexOf(currentLevel);
 const levels = [
   "Grup-1", "Grup-2", "Grup-3", "Grup-4", "Grup-5",
   "Grup-6", "Grup-7", "Grup-8", "Grup-9", "Grup-10"
 ];
+const currentLevelIndex = levels.indexOf(currentLevel);
 let currentAnswer = 0;
 let correctStreak = 0;
 let isComboQuestion = false;
@@ -13,6 +13,34 @@ let comboTimer = null;
 let comboTimeLeft = 10;
 let currentSudokuSolution = [];
 let timerAudio = null;
+
+// Character images for level up overlay
+const levelCharacterImages = {
+  "Grup-1": "images/char1.png",
+  "Grup-2": "images/char2.png",
+  "Grup-3": "images/char3.png",
+  "Grup-4": "images/char4.png",
+  "Grup-5": "images/char5.png",
+  "Grup-6": "images/char6.png",
+  "Grup-7": "images/char7.png",
+  "Grup-8": "images/char8.png",
+  "Grup-9": "images/char9.png",
+  "Grup-10": "images/char10.png"
+};
+
+// Background images for each level
+const levelBackgrounds = {
+    "Grup-1": "images/level1.png",
+    "Grup-2": "images/level2.png",
+    "Grup-3": "images/level3.png",
+    "Grup-4": "images/level4.png",
+    "Grup-5": "images/level5.png",
+    "Grup-6": "images/level1.png",
+    "Grup-7": "images/level2.png",
+    "Grup-8": "images/level3.png",
+    "Grup-9": "images/level4.png",
+    "Grup-10": "images/level5.png"
+  };
 
 // Function to get the level based on points
 function getLevelFromPoints(points) {
@@ -329,20 +357,6 @@ function updateDisplay() {
   if (levelPointsDisplay) levelPointsDisplay.textContent = points;
   if (levelLevelDisplay) levelLevelDisplay.textContent = getCurrentLevel();
 
-
-  const levelBackgrounds = {
-    "Grup-1": "images/level1.png",
-    "Grup-2": "images/level2.png",
-    "Grup-3": "images/level3.png",
-    "Grup-4": "images/level4.png",
-    "Grup-5": "images/level5.png",
-    "Grup-6": "images/level1.png",
-    "Grup-7": "images/level2.png",
-    "Grup-8": "images/level3.png",
-    "Grup-9": "images/level4.png",
-    "Grup-10": "images/level5.png"
-  };
-
   const currentLevel = getCurrentLevel();
   // Path is relative to the main HTML file
   document.body.style.backgroundImage = `url('${levelBackgrounds[currentLevel] || 'images/start-screen.png'}')`;
@@ -370,11 +384,24 @@ function updateDisplay() {
 
 function launchLevelUpOverlay() {
   const overlay = document.getElementById("levelup-overlay");
-  if (!overlay) return;
+  const characterImg = document.getElementById("levelup-character");
+  const newLevel = getCurrentLevel();
+  if (!overlay || !characterImg) return;
+
+  // Set character image based on level
+  const imgSrc = levelCharacterImages[newLevel];
+  if (imgSrc) {
+    characterImg.src = imgSrc;
+    characterImg.style.display = "block";
+  } else {
+    characterImg.style.display = "none";
+  }
+
   overlay.style.display = "flex";
   setTimeout(() => {
     overlay.style.display = "none";
-  }, 2500); // 2.5 seconds
+    characterImg.style.display = "none";
+  }, 2500); // 12.5 seconds
 }
 
 function updatelevel() {
@@ -865,3 +892,4 @@ function updateLeaderboard() {
     leaderboardList.appendChild(tr);
   });
 }
+

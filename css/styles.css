@@ -432,6 +432,15 @@ button:active {
   to   { filter: brightness(2.2); }
 }
 
+.levelup-character {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  margin: 0 auto 16px auto;
+  display: block;
+  animation: zoomIn 1s cubic-bezier(.68,-0.55,.27,1.55);
+}
+
 /* Responsive */
 @media (max-width: 800px) {
   #main-section, #game-section, #sudoku-section {
