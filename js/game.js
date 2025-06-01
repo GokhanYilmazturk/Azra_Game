@@ -299,6 +299,48 @@ function nextQuestion(levelOverride = null) {
   if (feedbackElem) feedbackElem.textContent = "";
   updateDisplay();
   if (answerInputElem) answerInputElem.focus();
+
+  // --- Timer for Grup-9 and Grup-10 ---
+  if (level === "Grup-9" || level === "Grup-10") {
+    let timerSeconds = level === "Grup-9" ? 10 : 5;
+    if (comboTimer) clearInterval(comboTimer);
+    comboTimeLeft = timerSeconds;
+    if (comboTimerElem) {
+      comboTimerElem.textContent = `Süre: ${comboTimeLeft} sn`;
+      comboTimerElem.style.display = "block";
+    }
+    // Play timer sound
+    if (timerAudio) {
+      timerAudio.pause();
+      timerAudio.currentTime = 0;
+    }
+    timerAudio = new Audio("sounds/timer.mpeg");
+    timerAudio.loop = true;
+    timerAudio.play().catch(() => { });
+    comboTimer = setInterval(() => {
+      comboTimeLeft--;
+      if (comboTimerElem) comboTimerElem.textContent = `Süre: ${comboTimeLeft} sn`;
+      if (comboTimeLeft <= 0) {
+        clearInterval(comboTimer);
+        if (comboTimerElem) comboTimerElem.style.display = "none";
+        // Stop timer sound
+        if (timerAudio) {
+          timerAudio.pause();
+          timerAudio.currentTime = 0;
+        }
+        if (feedbackElem) feedbackElem.textContent = "⏰ Süre doldu!";
+        setTimeout(nextQuestion, 1500);
+      }
+    }, 1000);
+  } else {
+    if (comboTimer) clearInterval(comboTimer);
+    if (comboTimerElem) comboTimerElem.style.display = "none";
+    // Stop timer sound
+    if (timerAudio) {
+      timerAudio.pause();
+      timerAudio.currentTime = 0;
+    }
+  }
 }
 
 function validateInput(input) {
@@ -800,7 +842,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Timer for Grup-9 and Grup-10
-if (level === "Grup-9" || level === "Grup-10") {
+/* if (level === "Grup-9" || level === "Grup-10") {
   let timerSeconds = level === "Grup-9" ? 10 : 5;
   if (comboTimer) clearInterval(comboTimer);
   comboTimeLeft = timerSeconds;
@@ -839,7 +881,7 @@ if (level === "Grup-9" || level === "Grup-10") {
     timerAudio.pause();
     timerAudio.currentTime = 0;
   }
-}
+} */
 
 if (["Grup-9", "Grup-10"].includes(getCurrentLevel())) {
   correctStreak = 0; // Never trigger combo
