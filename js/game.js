@@ -89,11 +89,11 @@ async function loadFragment(fragmentPath, containerId) {
 // --- Initialization Function (called after fragments are loaded) ---
 function initializeGame() {
   // Assign DOM element references
-  mainSectionContainer = document.getElementById("main-section");
-  gameSectionContainer = document.getElementById("game-section");
-  levelSectionContainer = document.getElementById("level-section");
-  sudokuSectionContainer = document.getElementById("sudoku-section");
-  leaderboardSectionContainer = document.getElementById("leaderboard-section");
+  mainSectionContainer = document.getElementById("main-section-container");
+  gameSectionContainer = document.getElementById("game-section-container");
+  levelSectionContainer = document.getElementById("level-section-container");
+  sudokuSectionContainer = document.getElementById("sudoku-section-container");
+  leaderboardSectionContainer = document.getElementById("leaderboard-section-container");
 
   // Elements from main_section.html
   pointsDisplay = document.getElementById("points");
