@@ -949,3 +949,29 @@ function updateLeaderboard() {
   });
 }
 
+// Intro Video Logic
+document.addEventListener("DOMContentLoaded", function () {
+  const overlay = document.getElementById("intro-video-overlay");
+  const video = document.getElementById("intro-video");
+  const skipBtn = document.getElementById("skip-intro-btn");
+
+  function hideIntro() {
+    overlay.style.display = "none";
+    if (video) {
+      video.pause();
+      video.currentTime = 0;
+    }
+  }
+
+  if (video) {
+    video.addEventListener("ended", hideIntro);
+  }
+  if (skipBtn) {
+    skipBtn.addEventListener("click", hideIntro);
+  }
+  // Optional: Hide on click anywhere on overlay
+  overlay.addEventListener("click", function (e) {
+    if (e.target === overlay) hideIntro();
+  });
+});
+
