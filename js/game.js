@@ -624,7 +624,7 @@ function generateSudoku4x4() {
 function backToMain() {
   mainSectionContainer.style.display = "block";
   gameSectionContainer.style.display = "none";
-  levelSectionContainer.style.display = "block";
+  levelSectionContainer.style.display = "none";
   sudokuSectionContainer.style.display = "none";
   leaderboardSectionContainer.style.display = "none";
   updateDisplay(); // Refresh main screen info
@@ -852,8 +852,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Timer for Grup-9 and Grup-10
-if (level === "Grup-9" || level === "Grup-10") {
-  let timerSeconds = level === "Grup-9" ? 10 : 5;
+if (currentLevel === "Grup-9" || currentLevel === "Grup-10") {
+  let timerSeconds = currentLevel === "Grup-9" ? 10 : 5;
   if (comboTimer) clearInterval(comboTimer);
   comboTimeLeft = timerSeconds;
   if (comboTimerElem) {

@@ -229,35 +229,74 @@ button:active {
 /* Sudoku Section */
 #sudoku-section {
   text-align: center;
-  margin-top: 20px;
-  border-radius: 10px;
-  padding: 20px;
+  margin-top: 30px;
+  border-radius: 16px;
+  padding: 24px;
   background: #f8fafc;
   max-width: 700px;
   width: 100%;
-  display: inline-block;
+  display: block;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.04);
 }
+
 #sudoku-table {
-  margin: 0 auto;
+  margin: 0 auto 16px auto;
   border-collapse: collapse;
 }
 #sudoku-table td {
-  width: 40px;
-  height: 40px;
-  border: 1px solid #ccc;
+  width: 80px;
+  height: 70px;
+  border: 1.5px solid #cfdfe7;
+  padding: 0;
 }
 #sudoku-table input[type="number"] {
-  width: 32px;
-  height: 32px;
+  width: 60px;
+  height: 50px;
   text-align: center;
-  font-size: 18px;
-  border: 1px solid #888;
-  margin: 2px;
-  border-radius: 4px;
+  font-size: 20px;
+  border: none;
+  background: #fff;
+  color: #0d171b;
+  outline: none;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+}
+#sudoku-table input[type="number"]:focus {
+  background: #e7eff3;
+  border: 1.5px solid #13a3eb;
 }
 #sudoku-table input[disabled] {
-  background: #eee;
-  color: #888;
+  background: #eee !important;
+  color: #888 !important;
+  font-weight: bold;
+  cursor: not-allowed;
+}
+
+.sudoku-section-hero {
+  width: 100%;
+  min-height: 400px;
+  min-width: 300px;
+  background-image: url('../images/sudoku-section.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  overflow: hidden;
+  background-color: #f8fafc;
+  margin-bottom: 10px;
+}
+
+.sudoku-section-title {
+  color: #0d171b;
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1.2;
+  text-align: center;
+  padding: 10px 0 10px 0;
+  letter-spacing: -0.015em;
 }
 
 /* Level/Leaderboard Section */
