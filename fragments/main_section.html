@@ -1,14 +1,41 @@
-<div id="main-section">
-  <h1>Hoş geldin tatlı kızım AZRA !!</h1>
-  <p>
-    <strong>Mevcut seviyen:</strong>
-    <input type="text" id="level" value="Grup-1" disabled>
-  </p>
-  <p>
-    <strong>Puanın:</strong>
-    <input type="text" id="points" value="0" disabled>
-  </p>
-  <button onclick="startGame()">Oyuna Başla</button>
-  <button onclick="resetGame()">Oyunu Sıfırla</button>
-  <button onclick="showSudoku()">Sudoku Çöz</button>
+<div id="main-section" class="layout-content-container flex flex-col max-w-[960px] flex-1">
+  <div class="@container">
+    <div class="@[480px]:px-4 @[480px]:py-3">
+      <div class="main-section-hero"></div>
+    </div>
+  </div>
+  <h2 class="main-section-title">Hoş geldin tatlı kızım AZRA !!</h2>
+  <div class="flex flex-wrap gap-3 px-4 py-3">
+<div class="points-box">
+        <input type="text" id="points" value="0" disabled class="text-center">
+        <div class="points-label">Puan</div>
+      </div>
+    <div class="level-box">
+        <input type="text" id="level" value="Grup-1" disabled class="text-center">
+        <div class="level-label">Seviye</div>
+      </div>
+  </div>
+  <h2 class="text-[#0d171b] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Mevcut Seviye</h2>
+  <div class="flex flex-col gap-3 p-4">
+    <div class="flex gap-6 justify-between">
+      <p class="text-[#0d171b] text-base font-medium leading-normal">Seviye ilerlemesi</p>
+    </div>
+    <div class="rounded bg-[#cfdfe7]">
+      <div id="progress-bar" class="h-2 rounded bg-[#13a3eb]" style="width: 0%;"></div>
+    </div>
+    <p id="progress-text" class="text-[#4c809a] text-sm font-normal leading-normal">0%</p>
+  </div>
+  <div class="flex justify-center">
+    <div class="flex flex-1 gap-3 max-w-[480px] flex-col items-stretch px-4 py-3">
+      <button onclick="startGame()" class="btn btn-primary w-full">
+        <span class="truncate">Oyuna Başla</span>
+      </button>
+      <button onclick="resetGame()" class="btn btn-secondary w-full">
+        <span class="truncate">Oyunu Sıfırla</span>
+      </button>
+      <button onclick="showSudoku()" class="btn btn-secondary w-full">
+        <span class="truncate">Sudoku Çöz</span>
+      </button>
+    </div>
+  </div>
 </div>

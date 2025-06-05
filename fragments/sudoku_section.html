@@ -1,6 +1,8 @@
-<div id="sudoku-section">
-  <h2>Mini Sudoku</h2>
-  <p>Aşağıdaki Sudoku'yu çöz ve "Kontrol Et"e bas!</p>
+<div id="sudoku-section" class="layout-content-container">
+  <div class="sudoku-section-hero">
+  </div>
+      <h2 class="sudoku-section-title">Mini Sudoku</h2>
+    <p>Aşağıdaki Sudoku'yu çöz ve "Kontrol Et"e bas!</p>
   <table id="sudoku-table">
     <tbody>
       <tr>
@@ -29,9 +31,10 @@
       </tr>
     </tbody>
   </table>
-  <br>
-  <button onclick="checkSudoku()">Kontrol Et</button>
-  <button onclick="generateAndShowSudoku()">Yeni Sudoku</button>
-  <button onclick="backToMain()">Geri Dön</button>
-  <p id="sudoku-feedback"></p>
+  <div class="game-section-btn-row">
+    <button onclick="checkSudoku()" class="btn btn-primary">Kontrol Et</button>
+    <button onclick="generateAndShowSudoku()" class="btn btn-secondary">Yeni Sudoku</button>
+    <button onclick="backToMain()" class="btn btn-secondary">Geri Dön</button>
+  </div>
+  <p id="sudoku-feedback" class="game-section-feedback"></p>
 </div>

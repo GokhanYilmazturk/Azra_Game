@@ -10,16 +10,22 @@ Oyunu denemek icin bu link kullanilabilir : https://splendid-cupcake-7c75ef.netl
 * Mevcut seviye ve puan gösterimi
 * Seviye bazlı artan zorlukta sorular:
 
-  * **Grup-1**: Tek basamaklı toplama soruları
-  * **Grup-2**: Tek basamaklı toplama + 0-2 arası çarpma
-  * **Grup-3**: Tek basamaklı toplama + 0-4 arası çarpma
-  * **Grup-4**: 15'e kadar toplama + 0-5 arası çarpma
-  * **Grup-5**: 15'e kadar toplama + 0-10 arası çarpma
-* Cevap kontrolü:
+  * **Grup-1**: 0-5 arası toplama soruları
+  * **Grup-2**: Tek basamaklı toplama soruları
+  * **Grup-3**: Tek basamaklı toplama + 0-3 arası çarpma
+  * **Grup-4**: Tek basamaklı toplama + Tek basamaklı çıkartma + 0-4 arası çarpma
+  * **Grup-5**: 15'e kadar toplama + Tek basamaklı çıkartma + 0-5 arası çarpma
+  * **Grup-6**: 5-15 arası toplama + Tek basamaklı çıkartma + 0-6 arası çarpma
+  * **Grup-7**: 5-15 arası toplama + Tek basamaklı çıkartma + 0-7 arası çarpma
+  * **Grup-8**: 5-20 arası toplama + Tek basamaklı çıkartma + 0-8 arası çarpma
+  * **Grup-9**: 10-20 arası toplama + Tek basamaklı çıkartma + 0-9 arası çarpma (Her soru için 10 sn süre)
+  * **Grup-10**: 10-20 arası toplama + Tek basamaklı çıkartma + 0-10 arası çarpma (Her soru için 5 sn süre)
 
-  * Doğru cevap: +2 puan
+* Cevap kontrolü:
+  * Doğru cevap: Grup-1~Grup-5 için +2 puan, Grup-6 ve sonrası için +1 puan
   * Yanlış cevap: -1 puan (puan 0'ın altına inemez)
-* Her 20 puanda yeni seviyeye geçiş
+* Her 20 puanda yeni seviyeye geçiş (Grup-1~Grup-5), Grup-6 ve sonrası için her 10 puanda seviye atlanır
+* Grup-9 ve Grup-10'da her soru için zamanlayıcı (sırasıyla 10 sn ve 5 sn)
 * Seviye atlamada konfeti animasyonu
 * Cevap girişi için Enter tuşu desteği
 * Puanlar `localStorage` ile tarayıcıda saklanır
