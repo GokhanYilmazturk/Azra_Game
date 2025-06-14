@@ -938,15 +938,30 @@ function updateLeaderboard() {
   let leaderboard = [...fictionalPlayers, azraEntry];
   leaderboard.sort((a, b) => b.points - a.points);
 
+  // Show character image for current level
   const leaderboardCharacter = document.getElementById("leaderboard-character");
-    const currentLevel = getCurrentLevel();
-    const imgSrc = levelCharacterImages[currentLevel];
-    if (leaderboardCharacter && imgSrc) {
-      leaderboardCharacter.src = imgSrc;
-      leaderboardCharacter.style.display = "block";
-    } else if (leaderboardCharacter) {
-      leaderboardCharacter.style.display = "none";
-    }
+  const currentLevel = getCurrentLevel();
+  const imgSrc = levelCharacterImages[currentLevel];
+  if (leaderboardCharacter && imgSrc) {
+    leaderboardCharacter.src = imgSrc;
+    leaderboardCharacter.style.display = "block";
+  } else if (leaderboardCharacter) {
+    leaderboardCharacter.style.display = "none";
+  }
+
+  // Show badges under character
+  const leaderboardBadges = document.getElementById("leaderboard-badges");
+  if (leaderboardBadges) {
+    leaderboardBadges.innerHTML = "";
+    badgeList.forEach(badge => {
+      const img = document.createElement("img");
+      img.src = `images/badges/${badge.key}.png`;
+      img.alt = badge.name;
+      img.title = badge.name;
+      img.className = "leaderboard-badge-img" + (earnedBadges.includes(badge.key) ? " earned" : "");
+      leaderboardBadges.appendChild(img);
+    });
+  }
 
   const leaderboardList = document.getElementById("leaderboard-list");
   if (!leaderboardList) return;
