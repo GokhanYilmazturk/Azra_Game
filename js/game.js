@@ -45,8 +45,8 @@ const levelBackgrounds = {
 const badgeList = [
   { points: 70,  key: "number-ninja",   name: "Sayı Ninjasi" },
   { points: 90,  key: "brain-booster",  name: "Beyin Güçlendirici" },
-  { points: 110, key: "math-explorer",  name: "Matematik Kaşifi" },
-  { points: 130, key: "math-whiz",      name: "Matematik Dahisi" },
+  { points: 115, key: "math-explorer",  name: "Matematik Kaşifi" },
+  { points: 135, key: "math-whiz",      name: "Matematik Dahisi" },
   { points: 150, key: "queen-math",     name: "Matematiğin Kraliçesi" }
 ];
 
@@ -496,7 +496,8 @@ function updatelevel() {
 
 function resetGame() {
   points = 0;
-  currentLevelIndex = 0;
+  earnedBadges = [];
+  saveBadges();
   localStorage.setItem('points', points);
   checkForNewBadges();
 
@@ -506,6 +507,7 @@ function resetGame() {
   if (levelLevelDisplay) levelLevelDisplay.textContent = getCurrentLevel();
 
   updateDisplay(); // To reset background etc.
+  updateLeaderboard(); // To update badge visuals on leaderboard
   alert("Oyun sıfırlandı! Yeni bir başlangıç yapabilirsin.");
 }
 
