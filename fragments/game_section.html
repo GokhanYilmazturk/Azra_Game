@@ -1,10 +1,32 @@
 <div id="game-section">
-  <p><strong>Puanın:</strong> <span id="game-points">0</span></p>
-  <p><strong>Seviyen:</strong> <span id="game-level">Grup-1</span></p>
-  <p id="question-text">Soru burada gözükecek</p>
-  <input type="number" id="answer-input" placeholder="Cevabını yaz" oninput="validateInput(this)">
-  <br>
-  <button onclick="submitAnswer()">Cevabı Gönder</button>
-  <p id="feedback"></p>
-  <p id="combo-timer" style="display:none; font-weight:bold; color:red; font-size:18px;"></p>
+  <div class="layout-content-container">
+    <div>
+      <div>
+        <div class="game-section-hero"></div>
+        <p><strong>Puanın:</strong> <span id="game-points">0</span></p>
+        <p><strong>Seviyen:</strong> <span id="game-level">Grup-1</span></p>
+      </div>
+    </div>
+    <h2 class="game-section-title">
+      <span id="question-text">Soru burada gözükecek</span>
+    </h2>
+    <div class="game-section-input-row">
+      <label class="game-section-label">
+        <input
+          class="game-section-input"
+          type="number"
+          id="answer-input"
+          placeholder="Cevabını yaz"
+          oninput="validateInput(this)"
+        />
+      </label>
+    </div>
+    <div class="game-section-btn-row">
+      <button onclick="submitAnswer()" class="btn btn-primary">
+        <span class="truncate">Cevapla</span>
+      </button>
+    </div>
+    <p id="feedback" class="game-section-feedback"></p>
+    <p id="combo-timer" class="game-section-combo-timer" style="display:none;"></p>
+  </div>
 </div>

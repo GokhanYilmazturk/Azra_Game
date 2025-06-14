@@ -1,9 +1,28 @@
 <div id="leaderboard-section">
-  <h2>Liderlik Tablosu</h2>
-  <p><strong>Mevcut Puanın:</strong> <span id="leaderboard-points">0</span></p>
-  <p><strong>Mevcut Seviyen:</strong> <span id="leaderboard-level">Grup-1</span></p>
-  <h3>Seviye Zorlukları:</h3>
-  <ul id="level-challenges">
-    <!-- Challenges will be dynamically added here -->
-  </ul>
+  <h2 class="leaderboard-title">Azra</h2>
+  <img id="leaderboard-character" class="levelup-character" src="" alt="Karakter" style="display:none; margin-bottom: 12px;" />
+  <div id="leaderboard-badges" class="leaderboard-badges" style="display:flex; justify-content:center; gap:16px; margin-bottom:16px;"></div>
+  <div class="px-40 flex flex-1 justify-center py-5">
+    <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+      <div class="flex flex-wrap justify-between gap-3 p-4">
+        <p class="text-[#0d171b] tracking-light text-[32px] font-bold leading-tight min-w-72">Liderlik Tablosu</p>
+      </div>
+      <div class="px-4 py-3 @container">
+        <div class="flex overflow-hidden rounded-xl border border-[#cfe0e7] bg-[#f8fbfc]">
+          <table class="flex-1 leaderboard-table">
+            <thead>
+              <tr class="bg-[#f8fbfc]">
+                <th class="px-4 py-3 text-left text-[#0d171b] text-sm font-medium leading-normal">Oyuncu</th>
+                <th class="px-4 py-3 text-left text-[#0d171b] text-sm font-medium leading-normal">Seviye</th>
+                <th class="px-4 py-3 text-left text-[#0d171b] text-sm font-medium leading-normal">Puan</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboard-list">
+              <!-- Leaderboard entries will be dynamically added here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

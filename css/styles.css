@@ -1,147 +1,622 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Spline Sans", "Noto Sans", Arial, sans-serif;
   text-align: center;
-  margin-top: 50px;
+  margin: 0;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   transition: background-image 0.5s ease-in-out;
 }
-/* #game-section will be handled by JS after fragment loading */
-/* #main-section will be handled by JS after fragment loading */
 
-input {
-  padding: 5px;
-  font-size: 16px;
+/* Layout containers */
+.layout-content-container {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
-button {
+
+/* Main Section */
+.main-section-hero {
+  width: 100%;
+  min-height: 300px;
+  background-image: url('../images/start-screen.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  overflow: hidden;
+  background-color: #f8fafc;
+}
+
+.game-section-hero {
+  width: 100%;
+  min-height: 218px;
+  background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDvnCMtB-R43iV7Rwf1RHyQBgIPmsQyvkLWL7aVBi6fmborDf57xpO3FZrdt6cKt8KIcb6kh7G7FhL3qEwP0nxjxSW2rVow_IR0YCRc-r58E12d95wmEPfHOGxa7oK43zvX76RoILzJAeJ7HKhKaAMKQb07x1sWhNFEqIKa_81Wi9YuaQqX7kytgFqccOeN1_c-8y8JEEgcuD3N1hHIKu9mcXTmzj21f1wSX4gBD8S_HYYOxXv5b2Jer2QU_rqYszhJ8Rvs_EpR3qkS");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  overflow: hidden;
+  background-color: #f8fafc;
+}
+
+.main-section-title {
+  color: #0d171b;
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1.2;
+  text-align: center;
+  padding: 20px 0 12px 0;
+  letter-spacing: -0.015em;
+}
+
+.points-box, .level-box {
+  min-width: 111px;
+  flex: 1 1 fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-radius: 12px;
+  border: 1px solid #cfdfe7;
+  padding: 12px;
+  align-items: center;
+  text-align: center;
+  margin: 0 6px;
+}
+.points-box input[disabled], .level-box input[disabled] {
+  background-color: rgba(255,255,255,0.8);
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 18px;
+  text-align: center;
+  color: #333;
+  width: 100px;
+  margin: 5px 0;
+}
+.points-label, .level-label {
+  color: #4c809a;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+/* Progress Bar */
+#progress-bar {
+  height: 8px;
+  border-radius: 8px;
+  background: #13a3eb;
+  transition: width 0.3s;
+}
+#progress-text {
+  color: #4c809a;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+/* Buttons */
+button, .btn {
   padding: 10px 20px;
   font-size: 16px;
   margin-top: 10px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-primary {
+  background: #13a3eb;
+  color: #fff;
+}
+.btn-secondary {
+  background: #e7eff3;
+  color: #0d171b;
+}
+.btn {
+  min-width: 84px;
+  max-width: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  height: 40px;
+  padding: 0 16px;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+button:active {
+  opacity: 0.85;
 }
 
-#p5-canvas-container {
-  position: fixed; /* Cover the whole screen */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 100;   /* Ensure it's on top of other game elements but below modals/alerts if any */
-  pointer-events: none; /* Allow clicks to pass through to elements underneath */
-}
-
-#p5-canvas-container canvas {
-  width: 100%;
-  height: 100%;
-  display: block; /* Ensures the canvas takes up the full container */
-}
-/* Fragment containers */
-#leaderboard-section-container #leaderboard-section, /* Adjusted selector */
-#main-section-container #main-section, /* Adjusted selector */
-#game-section-container #game-section, /* Adjusted selector */
-#sudoku-section-container #sudoku-section { /* Adjusted selector */
-  padding: 20px;
+/* Game Section */
+#game-section {
   border-radius: 10px;
-  display: inline-block; /* Or block if you prefer full width */
+  padding: 20px;
+  margin: 30px auto;
+  background: #f8fafc;
+  max-width: 700px;
+  width: 100%;
 }
 
+.game-section-hero {
+  width: 100%;
+  min-height: 218px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  overflow: hidden;
+  background-color: #f8fafc;
+}
 
-#leaderboard-section-container #leaderboard-section {
+.game-section-title {
+  color: #0d171b;
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1.2;
+  text-align: center;
+  padding: 20px 0 12px 0;
+  letter-spacing: -0.015em;
+}
+
+.game-section-input-row {
+  display: flex;
+  max-width: 480px;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 16px;
+  padding: 12px 16px;
+  margin: 0 auto;
+}
+
+.game-section-label {
+  display: flex;
+  flex-direction: column;
+  min-width: 160px;
+  flex: 1;
+}
+
+.game-section-input {
+  width: 100%;
+  min-width: 0;
+  border-radius: 12px;
+  border: 1px solid #cfdfe7;
+  background: #f8fafc;
+  color: #0d171b;
+  padding: 15px;
+  font-size: 16px;
+  height: 56px;
+  font-weight: normal;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.game-section-input:focus {
+  border-color: #13a3eb;
+}
+
+.game-section-btn-row {
+  display: flex;
+  justify-content: center;
+  padding: 12px 16px;
+}
+
+.game-section-feedback {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #0d171b;
+}
+
+.game-section-combo-timer {
+  font-weight: bold;
+  color: red;
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+/* Sudoku Section */
+#sudoku-section {
+  text-align: center;
+  margin-top: 30px;
+  border-radius: 16px;
+  padding: 24px;
+  background: #f8fafc;
+  max-width: 700px;
+  width: 100%;
+  display: block;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+}
+
+#sudoku-table {
+  margin: 0 auto 16px auto;
+  border-collapse: collapse;
+}
+#sudoku-table td {
+  width: 80px;
+  height: 70px;
+  border: 1.5px solid #cfdfe7;
+  padding: 0;
+}
+#sudoku-table input[type="number"] {
+  width: 60px;
+  height: 50px;
+  text-align: center;
+  font-size: 20px;
+  border: none;
+  background: #fff;
+  color: #0d171b;
+  outline: none;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+}
+#sudoku-table input[type="number"]:focus {
+  background: #e7eff3;
+  border: 1.5px solid #13a3eb;
+}
+#sudoku-table input[disabled] {
+  background: #eee !important;
+  color: #888 !important;
+  font-weight: bold;
+  cursor: not-allowed;
+}
+
+.sudoku-section-hero {
+  width: 100%;
+  min-height: 400px;
+  min-width: 300px;
+  background-image: url('../images/sudoku-section.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  overflow: hidden;
+  background-color: #f8fafc;
+  margin-bottom: 10px;
+}
+
+.sudoku-section-title {
+  color: #0d171b;
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1.2;
+  text-align: center;
+  padding: 10px 0 10px 0;
+  letter-spacing: -0.015em;
+}
+
+/* Level/Leaderboard Section */
+#level-section {
   margin-top: 30px;
   border: 1px solid #ccc;
   background-color: #f9f9f9;
   text-align: left;
   width: 80%;
-  max-width: 400px;
-  /* display: block; Initially handled by JS */
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 10px;
+  padding: 20px;
 }
 
-#leaderboard-section-container #leaderboard-section h2 {
+.leaderboard-title {
   text-align: center;
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #0d171b;
+  font-weight: bold;
+}
+
+.level-challenges-title {
   font-size: 20px;
+  font-weight: bold;
+  color: #0d171b;
+  margin-top: 20px;
   margin-bottom: 10px;
 }
 
-#leaderboard-section-container #leaderboard-section ul {
-  list-style-type: none;
-  padding: 0;
+.level-section-content {
+  padding: 24px 0 0 0;
 }
 
-#leaderboard-section-container #leaderboard-section ul li {
-  margin-bottom: 5px;
+.level-section-heading {
+  color: #0d171b;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 20px 0 8px 0;
+  letter-spacing: -0.015em;
 }
 
-#main-section-container #main-section { /* Adjusted selector */
-  background-image: url('../images/start-screen.png'); /* IMPORTANT: Path updated */
+.level-section-desc {
+  color: #0d171b;
+  font-size: 12px;
+  font-weight: normal;
+  margin-bottom: 12px;
+  margin-top: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.level-section-image {
+  width: 100%;
+  aspect-ratio: 3/2;
+  background-image: url('../images/level-section.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 10px;
+  margin-top: 24px;
+  min-height: 120px;
+}
+
+/* Profile Image */
+.profile-image {
+  background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDHj4abqQzTxiHkIcraAqu4r8o8W1ce7HmTmqk9rLj8j0BgkEnr-_eQD7rnAIviqQ-UErYrz3LS_IvDCPfgsoTdebchkp9r__H5dCqdS1PautMXaTn9ST2JVHQhuaFCousiLXMl2J4uwz87vBoC3mAC44dBYbGTt3LNm0umlXsRZ2DNTNX1sqpSIacM7DL9FIhAf2gpaxeCT6Bu-DNjHUn-DeQ35JvBx4QfJdOIERwtust5UqW_C938JTb0mQNyJSm4AoThPir947KF");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-/* #game-section will be handled by JS */
-/* #leaderboard-section will be handled by JS */
+/* Modal Overlay Styles */
+.modal-overlay {
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-content {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px 24px;
+  min-width: 320px;
+  max-width: 90vw;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.15);
+  text-align: left;
+}
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 18px;
+  font-size: 22px;
+  color: #0d171b;
+}
+.modal-row {
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+#close-settings {
+  margin-top: 10px;
+  width: 100%;
+}
 
+/* Level Up Overlay */
+.levelup-overlay {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s;
+}
 
-input[disabled] {
-  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 5px;
-  font-size: 16px;
+.levelup-content {
   text-align: center;
-  color: #333;
-  width: 150px;
-  margin: 5px 0;
-}
-
-input[disabled]::placeholder {
-  color: #aaa;
-}
-
-body.level-4 {
   color: #fff;
+  width: 100vw;
+  user-select: none;
 }
 
-/* Sudoku styles */
-#sudoku-section-container #sudoku-section { /* Adjusted selector */
-  /* display: none;  Initially handled by JS */
-  text-align: center;
-  margin-top: 20px;
+.levelup-text {
+  font-size: 4rem;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  animation: zoomIn 1s cubic-bezier(.68,-0.55,.27,1.55);
+  margin: 24px 0;
+  text-shadow: 0 0 24px #13a3eb, 0 0 48px #fff;
 }
 
-#sudoku-section-container #sudoku-table { /* Adjusted selector */
-  margin: 0 auto;
-  border-collapse: collapse;
+.levelup-stars {
+  font-size: 2.5rem;
+  animation: starsPop 1s;
 }
 
-#sudoku-section-container #sudoku-table td { /* Adjusted selector */
-  width: 40px;
-  height: 40px;
-  border: 1px solid #ccc;
+.star {
+  display: inline-block;
+  margin: 0 8px;
+  animation: starTwinkle 1.2s infinite alternate;
 }
 
-#sudoku-section-container #sudoku-table input[type="text"] { /* Adjusted selector */
-  width: 32px;
-  height: 32px;
-  text-align: center;
+.star:nth-child(2) { animation-delay: 0.2s; }
+.star:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes zoomIn {
+  0%   { transform: scale(0.2); opacity: 0; }
+  60%  { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+@keyframes starsPop {
+  0%   { transform: scale(0.2); opacity: 0; }
+  60%  { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+@keyframes starTwinkle {
+  from { filter: brightness(1); }
+  to   { filter: brightness(2.2); }
+}
+
+.levelup-character {
+  width: 240px;
+  height: 240px;
+  object-fit: contain;
+  margin: 16px auto 16px auto;
+  display: block;
+  animation: zoomIn 1s cubic-bezier(.68,-0.55,.27,1.55);
+}
+
+/* Intro Video Overlay */
+.intro-video-overlay {
+  position: fixed;
+  z-index: 9999;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.intro-video {
+  width: 100%;
+  height: 100%;
+  max-width: 100vw;
+  max-height: 100vh;
+  object-fit: contain;
+  background: #000;
+}
+.skip-intro-btn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 10000;
+  padding: 10px 18px;
   font-size: 18px;
-  border: 1px solid #888;
-  margin: 2px;
+  background: #fff;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: background 0.2s, color 0.2s;
+}
+.skip-intro-btn:hover {
+  background: #e7eff3;
+  color: #13a3eb;
 }
 
-#sudoku-section-container #sudoku-table input[disabled] { /* Adjusted selector */
-  background: #eee;
-  color: #888;
+/* Badge Overlay */
+.badge-overlay {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s;
+}
+.badge-content {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px 24px;
+  text-align: center;
+  color: #0d171b;
+  min-width: 280px;
+  max-width: 90vw;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.15);
+}
+.badge-img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  margin-bottom: 16px;
+}
+.badge-name {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+.badge-desc {
+  font-size: 1.1rem;
+  color: #4c809a;
 }
 
-/* Initially hide all fragment containers except the main one (or handle in JS) */
+/* Responsive */
+@media (max-width: 800px) {
+  #main-section, #game-section, #sudoku-section {
+    max-width: 98vw;
+    padding: 10px;
+  }
+  .layout-content-container {
+    max-width: 98vw;
+  }
+}
+
+/* Hide/show fragment containers as needed (handled by JS) */
 #game-section-container,
-#sudoku-section-container {
+#sudoku-section-container,
+#level-section-container {
     display: none;
-}
-#leaderboard-section-container { /* Leaderboard is shown by default initially */
-    display: block;
 }
 #main-section-container {
     display: block;
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.leaderboard-table th, .leaderboard-table td {
+  padding: 10px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e7eff3;
+}
+.leaderboard-table th {
+  background: #f8fafc;
+  font-weight: bold;
+}
+.leaderboard-table tr:last-child td {
+  border-bottom: none;
+}
+
+.leaderboard-current {
+  font-weight: bold;
+  background: #f0f8ff;
+}
+
+.leaderboard-badges {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.leaderboard-badge-img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  filter: grayscale(1) brightness(0.7);
+  opacity: 0.7;
+  transition: filter 0.2s, opacity 0.2s;
+}
+.leaderboard-badge-img.earned {
+  filter: none;
+  opacity: 1;
 }
