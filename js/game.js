@@ -42,6 +42,14 @@ const levelBackgrounds = {
   "Grup-10": "images/level5.png"
 };
 
+const badgeList = [
+  { points: 70,  key: "number-ninja",   name: "Sayı Ninjasi" },
+  { points: 90,  key: "brain-booster",  name: "Beyin Güçlendirici" },
+  { points: 110, key: "math-explorer",  name: "Matematik Kaşifi" },
+  { points: 130, key: "math-whiz",      name: "Matematik Dahisi" },
+  { points: 150, key: "queen-math",     name: "Matematiğin Kraliçesi" }
+];
+
 // Function to get the level based on points
 function getLevelFromPoints(points) {
   if (points < 100) {
@@ -347,6 +355,7 @@ function submitAnswer() {
     }
     correctStreak = 0;
     localStorage.setItem('points', points);
+    checkForNewBadges();
     updateDisplay();
     setTimeout(nextQuestion, 1500);
     return;
@@ -369,6 +378,7 @@ function submitAnswer() {
   }
 
   localStorage.setItem('points', points);
+  checkForNewBadges();
 
   // Level up logic
   const previousLevel = getLevelFromPoints(points - pointsPerCorrect); // previous points
@@ -488,6 +498,7 @@ function resetGame() {
   points = 0;
   currentLevelIndex = 0;
   localStorage.setItem('points', points);
+  checkForNewBadges();
 
   if (pointsDisplay) pointsDisplay.value = points;
   if (levelDisplay) levelDisplay.value = getCurrentLevel();
@@ -897,6 +908,12 @@ if (["Grup-9", "Grup-10"].includes(getCurrentLevel())) {
   correctStreak = 0; // Never trigger combo
 }
 
+let earnedBadges = JSON.parse(localStorage.getItem('earnedBadges') || "[]");
+
+function saveBadges() {
+  localStorage.setItem('earnedBadges', JSON.stringify(earnedBadges));
+}
+
 function updateLeaderboard() {
   // Fictional players
   const fictionalPlayers = [
@@ -975,3 +992,31 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+function checkForNewBadges() {
+  let newBadge = null;
+  badgeList.forEach(badge => {
+    if (points >= badge.points && !earnedBadges.includes(badge.key)) {
+      earnedBadges.push(badge.key);
+      newBadge = badge;
+    }
+  });
+  if (newBadge) {
+    saveBadges();
+    showBadgeOverlay(newBadge);
+  }
+}
+
+function showBadgeOverlay(badge) {
+  const overlay = document.getElementById("badge-overlay");
+  const img = document.getElementById("badge-img");
+  const name = document.getElementById("badge-name");
+  const desc = document.getElementById("badge-desc");
+  // You can use a badge image per badge, or a generic one
+  img.src = `images/badges/${badge.key}.png`; // Place badge images in images/badges/
+  name.textContent = badge.name;
+  desc.textContent = `${badge.points} puana ulaştın!`;
+  overlay.style.display = "flex";
+  setTimeout(() => {
+    overlay.style.display = "none";
+  }, 2500);
+}
